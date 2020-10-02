@@ -1,13 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+// import Component
+import { LoadAssets, Onboarding } from './components/';
+//font
+import { fonts } from './constants';
+const AuthenticationStack = createStackNavigator();
+const AuthenticationNavigator = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthenticationStack.Navigator headerMode="none">
+      <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
+    </AuthenticationStack.Navigator>
+  );
+};
+export default function App() {
+  // console.log(fonts);
+
+  return (
+    <LoadAssets {...{ fonts }}>
+      <AuthenticationNavigator />
+    </LoadAssets>
   );
 }
 

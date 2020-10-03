@@ -1,12 +1,15 @@
 import React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Animated from 'react-native-reanimated';
 
+import Button from '../Button';
 interface SubSlideProps {
   title: string;
   description: string;
   last?: boolean;
   x: Animated.Node<number>;
+  onPress: () => void;
 }
 const styles = StyleSheet.create({
   container: {
@@ -37,13 +40,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-const SubSlide = ({ title, description, last, x }: SubSlideProps) => {
+const SubSlide = ({ title, description, last, onPress, x }: SubSlideProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
       {/* <Text>{last ? 'a' : 'b'}</Text> */}
-      <Button onPress={() => {}} title={last ? "Let's get started" : 'Next'} />
+      <Button
+        label={last ? "Let's get started" : 'Next'}
+        variant={last ? 'primary' : 'default'}
+        {...{ onPress }}
+      />
     </View>
   );
 };

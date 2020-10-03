@@ -1,17 +1,21 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { ThemeProvider } from '@shopify/restyle';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-// import Component
+// import Component,page
 import { LoadAssets, Onboarding } from './components/';
-//font
-import { fonts } from './constants';
+import { fonts, theme } from './constants';
+import { Welcome } from './screens';
+//import font,theme
+
 const AuthenticationStack = createStackNavigator();
 const AuthenticationNavigator = () => {
   return (
     <AuthenticationStack.Navigator headerMode="none">
       <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
+      <AuthenticationStack.Screen name="Welcome" component={Welcome} />
     </AuthenticationStack.Navigator>
   );
 };
@@ -19,9 +23,11 @@ export default function App() {
   // console.log(fonts);
 
   return (
-    <LoadAssets {...{ fonts }}>
-      <AuthenticationNavigator />
-    </LoadAssets>
+    <ThemeProvider theme={theme}>
+      <LoadAssets {...{ fonts }}>
+        <AuthenticationNavigator />
+      </LoadAssets>
+    </ThemeProvider>
   );
 }
 

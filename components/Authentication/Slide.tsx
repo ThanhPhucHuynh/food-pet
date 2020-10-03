@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { width, height } from '../../constants';
 
 interface SlideProps {
   label: string;
   right?: boolean;
+  picture: number;
 }
 const styles = StyleSheet.create({
   container: {
@@ -22,16 +24,30 @@ const styles = StyleSheet.create({
     // backgroundColor: 'black',
     justifyContent: 'center',
   },
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+  },
+  picture: {
+    ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    borderBottomRightRadius: 75,
+    borderBottomLeftRadius: 75,
+  },
 });
-const Slide = ({ label, right }: SlideProps) => {
+const Slide = ({ label, right, picture }: SlideProps) => {
   const transform = [
     { translateY: (height * 0.61 - 100) / 2 },
-    { translateX: (right ? 1 : -1) * (width / 2 - 50) },
+    { translateX: (right ? -1 : 1) * (width / 2 - 50) },
     { rotate: right ? '-90deg' : '90deg' },
   ];
 
   return (
     <View style={styles.container}>
+      <Animated.View style={styles.underlay}>
+        <Image source={picture} style={styles.picture} />
+      </Animated.View>
       <View style={[styles.titleContainer, { transform }]}>
         <Text style={styles.title}>{label}</Text>
       </View>

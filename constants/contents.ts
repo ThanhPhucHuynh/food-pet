@@ -18,9 +18,9 @@ const slides: slidesProps[] = [
     label: 'Products',
     title: 'Products for pets',
     description:
-      'The items for pets are diverse from food, drinks, toiletries, toys to clothes ...',
+      'The items for pets are diverse from food, drinks, toiletries, toys to clothes ...There are everything for pets.',
     color: '#BEECC4',
-    picture: require('../assets/images/c1.png'),
+    picture: require('../assets/images/c3.png'),
   },
   {
     label: 'Relaxed',
@@ -36,7 +36,7 @@ const slides: slidesProps[] = [
     description:
       'Here are some of the tips which will help you to take good care of your pet and keep them happy, active and healthy. We can look after your pets',
     color: '#FFDDDD',
-    picture: require('../assets/images/c1.png'),
+    picture: require('../assets/images/c3.png'),
   },
 ];
 

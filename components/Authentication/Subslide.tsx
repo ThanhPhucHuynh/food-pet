@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Animated from 'react-native-reanimated';
 
+import { Text as TextStyle } from '../../constants';
 import Button from '../Button';
 interface SubSlideProps {
   title: string;
@@ -22,9 +23,9 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 0,
-    fontFamily: 'Raleway-SemiBold',
-    fontSize: 30,
-    color: '#0C0D34',
+    // fontFamily: 'Raleway-SemiBold',
+    // fontSize: 30,
+    // color: '#0C0D34',
     textAlign: 'center',
     lineHeight: 30,
     marginBottom: 12,
@@ -43,7 +44,11 @@ const styles = StyleSheet.create({
 const SubSlide = ({ title, description, last, onPress, x }: SubSlideProps) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      {/* <Text style={styles.title}>{title}</Text> */}
+      <TextStyle variant="title2" style={styles.title}>
+        {title}
+      </TextStyle>
+
       <Text style={styles.description}>{description}</Text>
       {/* <Text>{last ? 'a' : 'b'}</Text> */}
       <Button

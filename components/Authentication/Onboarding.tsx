@@ -1,3 +1,4 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Animated, { multiply, divide } from 'react-native-reanimated';
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }) => {
   const scroll = useRef<Animated.ScrollView>(null);
   const x = useValue(0);
   const onScroll = onScrollEvent({ x });
@@ -94,18 +95,23 @@ const Onboarding = () => {
               flex: 1,
               transform: [{ translateX: multiply(x, -1) }],
             }}>
-            {slides.map(({ title, description }, index) => (
-              <SubSlide
-                onPress={() => {
-                  if (scroll.current) {
-                    scroll.current.getNode().scrollTo({ x: width * (index + 1), animated: true });
-                  }
-                }}
-                key={index}
-                last={index === slides.length - 1}
-                {...{ title, description, x }}
-              />
-            ))}
+            {slides.map(({ title, description }, index) => {
+              const last = index === slides.length - 1;
+              return (
+                <SubSlide
+                  onPress={() => {
+                    if (last) {
+                      navigation.navigate('Welcome');
+                    } else if (scroll.current) {
+                      scroll.current.getNode().scrollTo({ x: width * (index + 1), animated: true });
+                    }
+                  }}
+                  key={index}
+                  last={index === slides.length - 1}
+                  {...{ title, description, x }}
+                />
+              );
+            })}
           </Animated.View>
         </Animated.View>
       </View>

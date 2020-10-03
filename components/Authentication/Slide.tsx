@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     width: undefined,
     height: undefined,
-    borderBottomRightRadius: 75,
-    borderBottomLeftRadius: 75,
+    borderBottomRightRadius: 55,
+    borderBottomLeftRadius: 55,
   },
 });
 const Slide = ({ label, right, picture }: SlideProps) => {

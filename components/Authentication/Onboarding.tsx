@@ -1,25 +1,23 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
-import Animated, { multiply, divide } from 'react-native-reanimated';
+import { View, StyleSheet, Image } from 'react-native';
+import Animated, { multiply, divide, interpolate, Extrapolate } from 'react-native-reanimated';
 import { useValue, onScrollEvent, interpolateColor } from 'react-native-redash/lib/module/v1';
 
-import { width, height, slides } from '../../constants';
+import { width, height, slides, theme } from '../../constants';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Routes, StackNavigationProps } from '../../navigation/Navigation';
 import Dot from './Dot';
 import Slide from './Slide';
 import SubSlide from './Subslide';
-//data slider
 // interface ComponentNameProps {}
 
 const styles = StyleSheet.create({
   container: {
-    // width,
     flex: 1,
     backgroundColor: 'white',
   },
   slider: {
     height: 0.61 * height,
-    // borderBottomRightRadius: 75,
   },
   footer: {
     flex: 1,
@@ -27,8 +25,8 @@ const styles = StyleSheet.create({
   footerContent: {
     flex: 1,
     backgroundColor: 'white',
-    borderTopLeftRadius: 75,
-    borderTopRightRadius: 75,
+    borderTopLeftRadius: theme.borderRadii.xl,
+    borderTopRightRadius: theme.borderRadii.xl,
   },
   pagination: {
     ...StyleSheet.absoluteFillObject,
@@ -39,9 +37,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexDirection: 'row',
   },
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+  },
+  picture: {
+    ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    borderBottomRightRadius: 55,
+    // borderBottomLeftRadius: 55,
+  },
 });
-
-const Onboarding = ({ navigation }) => {
+export const assets = slides.map((slide) => slide.picture);
+const Onboarding = ({ navigation }: StackNavigationProps<Routes, 'Onboarding'>) => {
   const scroll = useRef<Animated.ScrollView>(null);
   const x = useValue(0);
   const onScroll = onScrollEvent({ x });
@@ -50,16 +60,27 @@ const Onboarding = ({ navigation }) => {
     inputRange: slides.map((_, i) => i * width),
     outputRange: slides.map((slide) => slide.color),
   });
-  // console.log(typeof backgroundColor);
 
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.slider, { backgroundColor }]}>
+        {slides.map(({ picture }, index) => {
+          const opacity = interpolate(x, {
+            inputRange: [(index - 0.5) * width, index * width, (index + 0.5) * width],
+            outputRange: [0, 1, 0],
+            extrapolate: Extrapolate.CLAMP,
+          });
+          return (
+            <Animated.View key={index} style={[styles.underlay, { opacity }]}>
+              <Image source={picture} style={styles.picture} />
+            </Animated.View>
+          );
+        })}
         <Animated.ScrollView
           ref={scroll}
           horizontal
           snapToInterval={width}
-          decelerationRate="fast"
+          decelerationRate="normal"
           showsHorizontalScrollIndicator={false}
           bounces={false}
           scrollEventThrottle={1}
@@ -100,11 +121,15 @@ const Onboarding = ({ navigation }) => {
               return (
                 <SubSlide
                   onPress={() => {
-                    if (last) {
-                      navigation.navigate('Welcome');
-                    } else if (scroll.current) {
-                      scroll.current.getNode().scrollTo({ x: width * (index + 1), animated: true });
-                    }
+                    // eslint-disable-next-line no-unused-expressions
+                    last
+                      ? navigation.navigate('Welcome')
+                      : scroll.current
+                          ?.getNode()
+                          .scrollTo({ x: width * (index + 1), animated: true });
+                    // else if (scroll.current) {
+                    //   scroll.current.getNode().scrollTo({ x: width * (index + 1), animated: true });
+                    // }
                   }}
                   key={index}
                   last={index === slides.length - 1}

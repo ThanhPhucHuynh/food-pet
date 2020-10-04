@@ -5,6 +5,9 @@ interface slidesProps {
   color: string;
   picture: any;
 }
+interface PictureWelcomeProps {
+  picture: any;
+}
 const slides: slidesProps[] = [
   {
     label: 'Food',
@@ -28,7 +31,7 @@ const slides: slidesProps[] = [
     description:
       'Pets can help you relax because they prevent you from feeling as much isolation and pain as you might have felt without them',
     color: '#FFE4D9',
-    picture: require('../assets/images/c1.png'),
+    picture: require('../assets/images/c2.png'),
   },
   {
     label: 'PetCare',
@@ -36,8 +39,8 @@ const slides: slidesProps[] = [
     description:
       'Here are some of the tips which will help you to take good care of your pet and keep them happy, active and healthy. We can look after your pets',
     color: '#FFDDDD',
-    picture: require('../assets/images/c3.png'),
+    picture: require('../assets/images/c5.png'),
   },
 ];
-
-export { slides };
+const pictureWelcome: any = require('../assets/images/c6.png');
+export { slides, pictureWelcome };

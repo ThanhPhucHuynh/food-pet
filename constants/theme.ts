@@ -1,4 +1,5 @@
-import { BaseTheme, createText, createTheme } from '@shopify/restyle';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { BaseTheme, createBox, createText, createTheme } from '@shopify/restyle';
 import { Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -17,6 +18,7 @@ const palette = {
   black: '#0B0B0B',
   white: '#F0F2F3',
 
+  grey: '#F4F0EF',
   defaultButton: 'rgba(12,13,52,0.05)',
 };
 
@@ -28,12 +30,22 @@ const theme: BaseTheme = createTheme({
     white: 'white',
     primary: '#2cb9b0',
     defaultButton: palette.defaultButton,
+    slide_grey: palette.grey,
+    grey: 'rgba(12,13,52,0.05)',
+    black: palette.black,
+    title: 'rgba(12,13,52,0.7)',
   },
   spacing: {
     s: 8,
     m: 16,
     l: 24,
     xl: 40,
+  },
+  borderRadii: {
+    s: 4,
+    m: 10,
+    l: 25,
+    xl: 50,
   },
   breakpoints: {
     phone: 0,
@@ -55,18 +67,19 @@ const theme: BaseTheme = createTheme({
     title2: {
       fontSize: 24,
       lineHeight: 30,
-      fontFamily: 'Raleway-SemiBold',
+      fontFamily: 'Anodina-ExtraBold',
       color: 'titleBoarding',
     },
     body: {
       fontSize: 16,
       lineHeight: 30,
       fontFamily: 'Raleway-Regular',
-      color: 'rgba(12,13,52,0.7)',
+      color: 'title',
     },
   },
 });
 
 export type Theme = typeof theme;
 export const Text = createText<Theme>();
+export const Box = createBox<Theme>();
 export { width, height, theme };

@@ -1,3 +1,7 @@
+import { AVPlaybackSource } from 'expo-av/build/AV';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ImageSourcePropType } from 'react-native';
+
 interface slidesProps {
   label: string;
   title: string;
@@ -42,5 +46,9 @@ const slides: slidesProps[] = [
     picture: require('../assets/images/c5.png'),
   },
 ];
-const pictureWelcome: any = require('../assets/images/c6.png');
-export { slides, pictureWelcome };
+const pictureContainer: ImageSourcePropType = require('../assets/images/background.jpg');
+const pictureWelcome: ImageSourcePropType = require('../assets/images/c6.png');
+const iconFacebook = require('../assets/svg/facebook.svg');
+const VideoContainer: AVPlaybackSource = require('../assets/video/clip3.mp4');
+
+export { slides, pictureWelcome, pictureContainer, VideoContainer, iconFacebook };

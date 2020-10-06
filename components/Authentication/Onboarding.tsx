@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { useRef } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import Animated, { multiply, divide, interpolate, Extrapolate } from 'react-native-reanimated';
@@ -63,6 +64,7 @@ const Onboarding = ({ navigation }: StackNavigationProps<Routes, 'Onboarding'>) 
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <Animated.View style={[styles.slider, { backgroundColor }]}>
         {slides.map(({ picture }, index) => {
           const opacity = interpolate(x, {

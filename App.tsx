@@ -1,16 +1,20 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider } from '@shopify/restyle';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // import Component,page
 import { LoadAssets, Onboarding, OnboardingAssets } from './components/';
 import { fonts, theme } from './constants';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Routes } from './navigation/Navigation';
-import { Login, Welcome, WelcomeAssets } from './screens';
+import { Login, Welcome, WelcomeAssets, LoginAsset, Register, RegisterAsset } from './screens';
+
 //import font,theme
-const assets = [...OnboardingAssets, ...WelcomeAssets];
+const assets = [...OnboardingAssets, ...WelcomeAssets, ...LoginAsset, ...RegisterAsset];
 const AuthenticationStack = createStackNavigator<Routes>();
 const AuthenticationNavigator = () => {
   return (
@@ -18,6 +22,7 @@ const AuthenticationNavigator = () => {
       <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
       <AuthenticationStack.Screen name="Welcome" component={Welcome} />
       <AuthenticationStack.Screen name="Login" component={Login} />
+      <AuthenticationStack.Screen name="Register" component={Register} />
     </AuthenticationStack.Navigator>
   );
 };
@@ -25,11 +30,17 @@ export default function App() {
   // console.log(fonts);
 
   return (
-    <ThemeProvider theme={theme}>
-      <LoadAssets {...{ fonts, assets }}>
-        <AuthenticationNavigator />
-      </LoadAssets>
-    </ThemeProvider>
+    <PaperProvider>
+      <ThemeProvider theme={theme}>
+        <LoadAssets {...{ fonts, assets }}>
+          <SafeAreaProvider>
+            {/* <KeyboardAvoidingView> */}
+
+            <AuthenticationNavigator />
+          </SafeAreaProvider>
+        </LoadAssets>
+      </ThemeProvider>
+    </PaperProvider>
   );
 }
 
@@ -37,8 +48,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...StyleSheet.absoluteFillObject,
+    // backgroundColor: 'black',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });

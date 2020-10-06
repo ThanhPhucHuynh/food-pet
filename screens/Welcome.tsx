@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
@@ -13,6 +14,8 @@ const styles = StyleSheet.create({
   underlay: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
+    // borderBottomRightRadius: 55,
+    // backgroundColor: 'white',
   },
   picture: {
     ...StyleSheet.absoluteFillObject,
@@ -25,9 +28,11 @@ const styles = StyleSheet.create({
 export const assets = [pictureWelcome];
 const Welcome = ({ navigation }: StackNavigationProps<Routes, 'Welcome'>) => {
   return (
-    <Box flex={1}>
+    <Box flex={1} backgroundColor="white">
+      <StatusBar style="auto" />
       <Box
         flex={1}
+        style={{ borderBottomRightRadius: 55 }}
         borderBottomRightRadius="xl"
         backgroundColor="grey"
         alignItems="center"

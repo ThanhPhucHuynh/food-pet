@@ -9,6 +9,7 @@ const palette = {
   purplePrimary: '#5A31F4',
   purpleDark: '#3F22AB',
   blueDark: '#0C0D34',
+  secondary: '#0c0d34',
   // blueDark: '#e6b800',
 
   greenLight: '#56DCBA',
@@ -34,8 +35,10 @@ const theme: BaseTheme = createTheme({
     grey: 'rgba(12,13,52,0.05)',
     black: palette.black,
     title: 'rgba(12,13,52,0.7)',
+    secondary: palette.secondary,
   },
   spacing: {
+    baby: 2,
     s: 8,
     m: 16,
     l: 24,
@@ -62,10 +65,16 @@ const theme: BaseTheme = createTheme({
     title1: {
       fontSize: 28,
       fontFamily: 'Raleway-SemiBold',
-      color: '#0c0d34',
+      color: 'primary',
     },
     title2: {
       fontSize: 24,
+      lineHeight: 30,
+      fontFamily: 'Anodina-ExtraBold',
+      color: 'titleBoarding',
+    },
+    titleButton: {
+      fontSize: 15,
       lineHeight: 30,
       fontFamily: 'Anodina-ExtraBold',
       color: 'titleBoarding',

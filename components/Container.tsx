@@ -11,6 +11,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { Avatar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -27,16 +28,23 @@ interface ContainerProps {
   children: ReactNode;
   footer: ReactNode;
   isRegister?: boolean;
+  image?: any;
 }
 
 export const assets = [VideoContainer, pictureContainer];
 const aspectRadio = 700 / 1125;
 const height = width * aspectRadio;
 
-const Container = ({ children, footer, isRegister }: ContainerProps) => {
+const Container = ({ children, footer, isRegister, image }: ContainerProps) => {
   const insets = useSafeAreaInsets();
+  const opacity = image ? 0.2 : 1;
   return (
-    <Box flex={1} backgroundColor="secondary" height={heightValue}>
+    <Box
+      flex={1}
+      backgroundColor="secondary"
+      height={heightValue * 1.044}
+      // borderBottomLeftRadius="xl"
+      borderBottomRightRadius="xl">
       <StatusBar style="light" />
       <Box backgroundColor="white">
         <Box borderBottomLeftRadius="xl" overflow="hidden" height={height}>
@@ -65,15 +73,42 @@ const Container = ({ children, footer, isRegister }: ContainerProps) => {
               }}
             />
           ) : (
-            <Image
-              source={pictureContainer}
-              style={{
-                ...StyleSheet.absoluteFillObject,
-                width,
-                height,
-                borderBottomLeftRadius: theme.borderRadii.xl,
-              }}
-            />
+            <Box>
+              <Image
+                source={pictureContainer}
+                style={{
+                  ...StyleSheet.absoluteFillObject,
+                  width,
+                  height,
+                  opacity,
+                  borderBottomLeftRadius: theme.borderRadii.xl,
+                }}
+              />
+              {image && (
+                <Box
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{
+                    height,
+                    width,
+                  }}>
+                  <Avatar.Image
+                    size={200}
+                    source={{ uri: image }}
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 12,
+                      },
+                      shadowOpacity: 0.58,
+                      shadowRadius: 16.0,
+                      elevation: 24,
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
           )}
         </Box>
       </Box>
@@ -113,9 +148,9 @@ const Container = ({ children, footer, isRegister }: ContainerProps) => {
 
       {/* <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled>
         <ScrollView> */}
-      <Box backgroundColor="secondary">
+      <Box backgroundColor="secondary" borderBottomLeftRadius="xl">
         {footer}
-        <Box height={insets.bottom} />
+        {/* <Box height={insets.bottom} /> */}
       </Box>
       {/* </ScrollView>
       </KeyboardAvoidingView> */}

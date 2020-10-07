@@ -1,18 +1,21 @@
-import { useHeaderHeight, Header } from '@react-navigation/stack';
 import React from 'react';
-import { Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TextInput } from 'react-native-paper';
 
 import { Container, AssetContainer, Button } from '../components';
-import { SocialLogin } from '../components/Login';
-import { Box, Text, theme } from '../constants';
+import { SocialLogin, InputLoginRegister } from '../components/Login';
+import { Box, Text } from '../constants';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Routes, StackNavigationProps } from '../navigation/Navigation';
+
 export const LoginAsset = AssetContainer;
 const Login = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
   const [textEmail, setTextEmail] = React.useState('');
-
   const [textPassword, setTextPassword] = React.useState('');
+
+  const [checkEmail, setCheckEmail] = React.useState<boolean>(true);
+  const [checkPassword, setCheckPassword] = React.useState<boolean>(true);
+  const [isChange, setIsChange] = React.useState<boolean>(false);
 
   const footer = (
     <>
@@ -36,41 +39,58 @@ const Login = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
       </Box>
     </>
   );
-
+  const validationEmail = () => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(textEmail).toLowerCase());
+  };
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled>
+    // <ScrollView bounces={!true}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
       <ScrollView>
         <Container {...{ footer }}>
-          <Box padding="xl">
+          <Box padding="xl" alignItems="center">
             <Text variant="title1">Welcome to login</Text>
+            <Text
+              style={{ marginTop: 20, marginHorizontal: 30, textAlign: 'center' }}
+              variant="title">
+              Use your credentials below amd login to your account
+            </Text>
           </Box>
-          <Box padding="m">
-            <Box padding="s">
-              {textEmail === '' ? (
-                <Text>Email</Text>
-              ) : (
-                <Image source={require('../assets/icon/dog.png')} />
-              )}
-              <TextInput
-                mode="outlined"
-                style={{ color: 'white', backgroundColor: 'white' }}
-                underlineColor="silver"
-                label="Email"
+          <Box padding="l">
+            <Box padding="s" style={{ justifyContent: 'center' }}>
+              <InputLoginRegister
+                isChange={isChange}
+                label="Enter your Email"
                 value={textEmail}
-                selectionColor="white"
+                leftIcon="account"
+                error={!checkEmail}
+                rightIcon="check-circle"
+                check={checkEmail}
                 onChangeText={(text) => setTextEmail(text)}
-                onFocus={() => {}}
+                onBlur={(text) => {
+                  // console.log(validationEmail(), textEmail == '');
+
+                  if (validationEmail() || textEmail === '') {
+                    setIsChange(false);
+                    setCheckEmail(true);
+                  } else {
+                    setCheckEmail(false);
+                    setIsChange(true);
+                  }
+                }}
               />
             </Box>
             <Box padding="s">
-              <Text>Password</Text>
-              <TextInput
-                mode="outlined"
-                style={{ color: 'white', backgroundColor: 'white' }}
-                underlineColor="silver"
-                label="Password"
+              {/* <Text>Password</Text> */}
+              <InputLoginRegister
+                secureTextEntry
+                isChange={isChange}
+                label="Enter your Password"
                 value={textPassword}
-                selectionColor="white"
+                leftIcon="lock"
+                error={!checkPassword}
+                rightIcon="check-circle"
+                check={checkPassword}
                 onChangeText={(text) => setTextPassword(text)}
               />
             </Box>
@@ -81,7 +101,7 @@ const Login = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
                 navigation.navigate('Welcome');
               }}
               variant="primary"
-              label="Login"
+              label="Login into your account"
             />
           </Box>
         </Container>

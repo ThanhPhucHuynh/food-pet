@@ -67,6 +67,11 @@ const theme: BaseTheme = createTheme({
       fontFamily: 'Raleway-SemiBold',
       color: 'primary',
     },
+    title: {
+      fontSize: 16,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Regular',
+    },
     title2: {
       fontSize: 24,
       lineHeight: 30,

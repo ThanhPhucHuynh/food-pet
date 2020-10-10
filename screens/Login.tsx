@@ -1,10 +1,11 @@
 import React from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { Alert, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Container, AssetContainer, Button } from '../components';
 import { SocialLogin, InputLoginRegister } from '../components/Login';
 import { Box, Text } from '../constants';
+import { LoginService } from '../constants/service';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Routes, StackNavigationProps } from '../navigation/Navigation';
 
@@ -16,6 +17,13 @@ const Login = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
   const [checkEmail, setCheckEmail] = React.useState<boolean>(true);
   const [checkPassword, setCheckPassword] = React.useState<boolean>(true);
   const [isChange, setIsChange] = React.useState<boolean>(false);
+  const [token, setToken] = React.useState<string>('');
+  React.useEffect(() => {
+    (async () => {
+      const token_vale = await AsyncStorage.getItem('token');
+      console.log(token_vale);
+    })();
+  }, []);
 
   const footer = (
     <>
@@ -97,8 +105,9 @@ const Login = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
           </Box>
           <Box padding="l" alignItems="center" justifyContent="space-evenly">
             <Button
-              onPress={() => {
-                navigation.navigate('Welcome');
+              onPress={async () => {
+                // navigation.navigate('Welcome');
+                console.log(await LoginService(textEmail, textPassword));
               }}
               variant="primary"
               label="Login into your account"

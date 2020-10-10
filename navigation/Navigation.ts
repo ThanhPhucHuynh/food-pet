@@ -16,4 +16,5 @@ export type Routes = {
   Welcome: undefined;
   Login: undefined;
   Register: undefined;
+  Home: undefined;
 };

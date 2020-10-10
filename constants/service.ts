@@ -8,16 +8,11 @@ interface LoginServiceProps {
 }
 
 export const LoginService = async (account: string, password: string) => {
-  //   console.log(HOST + 'test');
-  const user = {
-    email: account,
-    password,
-  };
   const data = await axios
     .post(HOST + 'users/login', { email: account, password })
     .then((res) => {
       //   console.log(res.data);
-
+      AsyncStorage.setItem('token', res.data.token);
       return res.data;
     })
     .catch(function (error) {

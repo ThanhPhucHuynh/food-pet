@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { AsyncStorage, Image, StyleSheet, View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
+// import {}
 import { Button } from '../components';
 import { Box, pictureWelcome, Text } from '../constants/';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Routes, StackNavigationProps } from '../navigation/Navigation';
+import { ApplicationState, checkIsLogin } from '../redux';
 interface WelcomeProps {}
 const onPressA = () => {
   console.log('hello');
@@ -27,6 +30,16 @@ const styles = StyleSheet.create({
 });
 export const assets = [pictureWelcome];
 const Welcome = ({ navigation }: StackNavigationProps<Routes, 'Welcome'>) => {
+  const dispatch = useDispatch();
+  const userIs = useSelector((state: ApplicationState) => state.userReducer);
+  useEffect(() => {
+    dispatch(checkIsLogin());
+    if (userIs.isLogin) {
+      navigation.navigate('Home');
+    }
+  }, [userIs.isLogin]);
+  console.log(userIs);
+
   return (
     <Box flex={1} backgroundColor="white">
       <StatusBar style="auto" />
@@ -61,7 +74,12 @@ const Welcome = ({ navigation }: StackNavigationProps<Routes, 'Welcome'>) => {
             variant="primary"
             label="Have an account? Login"
           />
-          <Button onPress={onPressA} label="Join us" />
+          <Button
+            label="Join us"
+            onPress={() => {
+              AsyncStorage.removeItem('token');
+            }}
+          />
           <Button onPress={onPressA} variant="transparent" label="Forgot password?" />
         </Box>
       </Box>

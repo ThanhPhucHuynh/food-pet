@@ -36,6 +36,9 @@ const theme: BaseTheme = createTheme({
     black: palette.black,
     title: 'rgba(12,13,52,0.7)',
     secondary: palette.secondary,
+    red: 'red',
+    greenLight: palette.greenLight,
+    blueDark: palette.blueDark,
   },
   spacing: {
     baby: 2,
@@ -89,6 +92,18 @@ const theme: BaseTheme = createTheme({
       lineHeight: 30,
       fontFamily: 'Raleway-Regular',
       color: 'title',
+    },
+    error: {
+      fontSize: 15,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Regular',
+      color: 'red',
+    },
+    name: {
+      fontSize: 20,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Regular',
+      color: 'blueDark',
     },
   },
 });

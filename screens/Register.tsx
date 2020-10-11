@@ -11,7 +11,7 @@ import { SocialLogin } from '../components/Login';
 import { Box, Text } from '../constants';
 import { HOST } from '../constants/service';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Routes, StackNavigationProps } from '../navigation/Navigation';
+import { AuthenticationRoutes, StackNavigationProps } from '../navigation/Navigation';
 
 interface ImageInfo {
   uri: string;
@@ -21,7 +21,7 @@ interface ImageInfo {
 
 export const RegisterAsset = AssetContainer;
 
-const Register = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
+const Register = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Login'>) => {
   const [textEmail, setTextEmail] = React.useState('');
   const [textName, setTextName] = React.useState('');
 
@@ -60,7 +60,6 @@ const Register = ({ navigation }: StackNavigationProps<Routes, 'Login'>) => {
     formData.append('password', textPassword);
 
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-    console.log(HOST + 'users/register');
 
     axios
       .post(HOST + 'users/register', formData, config)

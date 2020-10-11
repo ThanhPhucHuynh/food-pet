@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../components';
 import { Box, pictureWelcome, Text } from '../constants/';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Routes, StackNavigationProps } from '../navigation/Navigation';
+import { AuthenticationRoutes, StackNavigationProps } from '../navigation/Navigation';
 import { ApplicationState, checkIsLogin } from '../redux';
 interface WelcomeProps {}
 const onPressA = () => {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 export const assets = [pictureWelcome];
-const Welcome = ({ navigation }: StackNavigationProps<Routes, 'Welcome'>) => {
+const Welcome = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Welcome'>) => {
   const dispatch = useDispatch();
   const userIs = useSelector((state: ApplicationState) => state.userReducer);
   useEffect(() => {
@@ -38,7 +38,7 @@ const Welcome = ({ navigation }: StackNavigationProps<Routes, 'Welcome'>) => {
       navigation.navigate('Home');
     }
   }, [userIs.isLogin]);
-  console.log(userIs);
+  // console.log(userIs);
 
   return (
     <Box flex={1} backgroundColor="white">

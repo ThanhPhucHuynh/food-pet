@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-export const HOST: string = 'http://192.168.3.108:3000/';
+export const HOST: string = 'http://192.168.3.104:3000/';
 
 interface LoginServiceProps {
   account: string;
@@ -10,14 +10,14 @@ interface LoginServiceProps {
 export const LoginService = async (account: string, password: string) => {
   const data = await axios
     .post(HOST + 'users/login', { email: account, password })
-    .then((res) => {
+    .then(async (res) => {
       //   console.log(res.data);
-      AsyncStorage.setItem('token', res.data.token);
+      await AsyncStorage.setItem('token', res.data.token);
       return res.data;
     })
     .catch(function (error) {
-      //   console.log(error);
-      return error;
+      console.log(error);
+      return false;
     });
   return data;
 };

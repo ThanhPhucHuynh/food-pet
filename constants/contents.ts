@@ -48,7 +48,7 @@ const slides: slidesProps[] = [
 ];
 const pictureContainer: ImageSourcePropType = require('../assets/images/background.jpg');
 const pictureWelcome: ImageSourcePropType = require('../assets/images/c6.png');
+const AvatarGuest = require('../assets/images/guest.png');
 const iconFacebook = require('../assets/svg/facebook.svg');
 const VideoContainer: AVPlaybackSource = require('../assets/video/clip3.mp4');
-
-export { slides, pictureWelcome, pictureContainer, VideoContainer, iconFacebook };
+export { slides, pictureWelcome, pictureContainer, VideoContainer, iconFacebook, AvatarGuest };

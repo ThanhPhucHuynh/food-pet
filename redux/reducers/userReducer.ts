@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { userIsLogin, UserModel } from '../actions/userAction';
 
 type UserState = {
@@ -22,6 +23,7 @@ const UserReducer = (state: UserState = initialState, action: userIsLogin) => {
         ...state,
         error: action.payload,
         isLogin: false,
+        user: null,
       };
     default:
       return state;

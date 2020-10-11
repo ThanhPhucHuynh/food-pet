@@ -11,6 +11,7 @@ interface SubSlideProps {
   last?: boolean;
   x: Animated.Node<number>;
   onPress: () => void;
+  isLogin: boolean;
 }
 const styles = StyleSheet.create({
   container: {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-const SubSlide = ({ title, description, last, onPress, x }: SubSlideProps) => {
+const SubSlide = ({ title, description, last, onPress, x, isLogin }: SubSlideProps) => {
   return (
     <View style={styles.container}>
       {/* <Text style={styles.title}>{title}</Text> */}
@@ -52,7 +53,7 @@ const SubSlide = ({ title, description, last, onPress, x }: SubSlideProps) => {
       <Text style={styles.description}>{description}</Text>
       {/* <Text>{last ? 'a' : 'b'}</Text> */}
       <Button
-        label={last ? "Let's get started" : 'Next'}
+        label={last ? (isLogin ? 'Continue' : "Let's get started") : 'Next'}
         variant={last ? 'primary' : 'default'}
         {...{ onPress }}
       />

@@ -3,10 +3,12 @@ import React, { useRef } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import Animated, { multiply, divide, interpolate, Extrapolate } from 'react-native-reanimated';
 import { useValue, onScrollEvent, interpolateColor } from 'react-native-redash/lib/module/v1';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { width, height, slides, theme } from '../../constants';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Routes, StackNavigationProps } from '../../navigation/Navigation';
+import { AuthNavigationProps } from '../../navigation/Navigation';
+import { ApplicationState, checkIsLogin } from '../../redux';
 import Dot from './Dot';
 import Slide from './Slide';
 import SubSlide from './Subslide';
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
   },
 });
 export const assets = slides.map((slide) => slide.picture);
-const Onboarding = ({ navigation }: StackNavigationProps<Routes, 'Onboarding'>) => {
+const Onboarding = ({ navigation }: AuthNavigationProps<'Onboarding'>) => {
   const scroll = useRef<Animated.ScrollView>(null);
   const x = useValue(0);
   const onScroll = onScrollEvent({ x });
@@ -61,7 +63,12 @@ const Onboarding = ({ navigation }: StackNavigationProps<Routes, 'Onboarding'>) 
     inputRange: slides.map((_, i) => i * width),
     outputRange: slides.map((slide) => slide.color),
   });
-
+  const dispatch = useDispatch();
+  const userIs = useSelector((state: ApplicationState) => state.userReducer);
+  React.useEffect(() => {
+    dispatch(checkIsLogin());
+  }, [userIs.isLogin]);
+  // console.log(userIs);
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -122,10 +129,13 @@ const Onboarding = ({ navigation }: StackNavigationProps<Routes, 'Onboarding'>) 
               const last = index === slides.length - 1;
               return (
                 <SubSlide
+                  isLogin={!!userIs.isLogin}
                   onPress={() => {
                     // eslint-disable-next-line no-unused-expressions
                     last
-                      ? navigation.navigate('Welcome')
+                      ? userIs.isLogin
+                        ? navigation.navigate('Home')
+                        : navigation.navigate('Welcome')
                       : scroll.current
                           ?.getNode()
                           .scrollTo({ x: width * (index + 1), animated: true });

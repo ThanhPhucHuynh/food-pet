@@ -1,4 +1,11 @@
-import { iconFacebook, slides, pictureWelcome, pictureContainer, VideoContainer } from './contents';
+import {
+  iconFacebook,
+  slides,
+  pictureWelcome,
+  AvatarGuest,
+  pictureContainer,
+  VideoContainer,
+} from './contents';
 import { fonts } from './fonts';
 import { width, height, theme, Text, Box } from './theme';
 export {
@@ -8,6 +15,7 @@ export {
   slides,
   theme,
   Text,
+  AvatarGuest,
   Box,
   pictureWelcome,
   pictureContainer,

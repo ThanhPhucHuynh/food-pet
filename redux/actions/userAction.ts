@@ -1,4 +1,5 @@
 import Axios from 'axios';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Dispatch } from 'react';
 import { AsyncStorage } from 'react-native';
 
@@ -22,11 +23,12 @@ export type userIsLogin = checkIsLogin | checkIsLoginErr;
 
 export const checkIsLogin = () => {
   return async (dispatch: Dispatch<userIsLogin>) => {
-    const response = 'Complete';
-    if (await AsyncStorage.getItem('token')) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
       Axios.get(HOST + 'users/me', {
         headers: {
-          Authorization: `Bearer ${await AsyncStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((response) => {

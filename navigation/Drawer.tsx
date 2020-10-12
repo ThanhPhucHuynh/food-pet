@@ -3,8 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { Drawer_Width } from '../constants';
 import { ApplicationState, checkIsLogin } from '../redux';
-import { DrawerScreen, Home, Product } from '../screens';
+import { Cart, DrawerScreen, Home, Product } from '../screens';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   HomeRoutes,
@@ -43,9 +44,14 @@ export const HomeNavigator = ({ navigation }: AuthNavigationProps<'Home'>) => {
     }
   };
   return (
-    <Drawer.Navigator drawerContent={DrawerContent}>
-      <Drawer.Screen name="Home" component={Home} />
+    <Drawer.Navigator
+      drawerContent={() => <DrawerContent />}
+      drawerStyle={{
+        width: Drawer_Width,
+      }}>
+      <Drawer.Screen name="HomeApp" component={Home} />
       <Drawer.Screen name="Product" component={Product} />
+      <Drawer.Screen name="Cart" component={Cart} />
     </Drawer.Navigator>
   );
 };

@@ -1,18 +1,35 @@
+import { DrawerItemList } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-paper';
 
-import { AvatarGuest, Box, height, Text } from '../constants';
+import { DrawerItem } from '../components';
+import { AvatarGuest, Box, height, Text, DrawnItemList, ButtonPicture, width } from '../constants';
 import { HOST } from '../constants/service';
 interface DrawerScreenProps {
   user?: any;
   isLogin?: boolean;
   onPress?: () => void;
 }
+const styles = StyleSheet.create({
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+  },
+  picture: {
+    ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    borderTopLeftRadius: 40,
+  },
+});
 const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
   //   const { user } = useSelector((state: ApplicationState) => state.userReducer);
   //   const dispatch = useDispatch()
   // console.log(user, isLogin);
+  const navigation = useNavigation();
   const urlAvatar = !isLogin ? AvatarGuest : { uri: HOST + user.avatar };
   const name = !isLogin ? 'Guest' : user.name;
   const BtnLogin = () =>
@@ -23,9 +40,14 @@ const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
         </Text>
       </TouchableOpacity>
     ) : (
-      <Text variant="name" style={{ textTransform: 'uppercase' }}>
-        {name}
-      </Text>
+      <Box justifyContent="center" alignItems="center">
+        <Text variant="name" style={{ textTransform: 'uppercase' }}>
+          {name}
+        </Text>
+        <Text variant="email" style={{ textTransform: 'uppercase' }}>
+          {user.email}
+        </Text>
+      </Box>
     );
   return (
     <Box flex={1}>
@@ -42,7 +64,11 @@ const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
       </Box>
       <Box flex={0.8}>
         <Box flex={1} backgroundColor="secondary" />
-        <Box flex={1} backgroundColor="greenLight" />
+        <Box flex={1} backgroundColor="greenLight">
+          <View style={styles.underlay}>
+            <Image source={ButtonPicture} style={styles.picture} />
+          </View>
+        </Box>
         <Box
           position="absolute"
           top={0}
@@ -51,8 +77,22 @@ const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
           bottom={0}
           backgroundColor="white"
           borderTopLeftRadius="xl"
-          borderBottomRightRadius="xl"
-        />
+          // marginTop='s'
+          justifyContent="center"
+          borderBottomRightRadius="xl">
+          <Box
+            // backgroundColor="red"
+            style={{
+              marginTop: height * 0.2,
+            }}
+            justifyContent="center"
+            // alignItems="center"
+            padding="xl">
+            {DrawnItemList.map((item, index) => {
+              return <DrawerItem key={index} {...item} />;
+            })}
+          </Box>
+        </Box>
       </Box>
       <Box flex={0.4} position="absolute" top={height * 0.1} left={0} right={0}>
         <Box justifyContent="center" alignItems="center">
@@ -87,8 +127,11 @@ const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
           right={0}
           bottom={0}
           borderTopLeftRadius="xl"
-          backgroundColor="greenLight"
-        />
+          backgroundColor="greenLight">
+          <View style={styles.underlay}>
+            <Image source={ButtonPicture} style={styles.picture} />
+          </View>
+        </Box>
       </Box>
     </Box>
   );

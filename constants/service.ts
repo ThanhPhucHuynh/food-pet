@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-export const HOST: string = 'http://192.168.3.104:3000/';
+export const HOST: string = 'http://192.168.1.172:3000/';
 
 interface LoginServiceProps {
   account: string;

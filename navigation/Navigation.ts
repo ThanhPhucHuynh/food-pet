@@ -14,7 +14,7 @@ export interface StackNavigationProps<
 export interface AuthNavigationProps<RouteName extends keyof AuthenticationRoutes> {
   navigation: CompositeNavigationProp<
     StackNavigationProp<AuthenticationRoutes, RouteName>,
-    DrawerNavigationProp<HomeRoutes, 'Home'>
+    DrawerNavigationProp<HomeRoutes, 'HomeApp'>
   >;
   route: RouteProp<AuthenticationRoutes, RouteName>;
 }
@@ -27,5 +27,7 @@ export type AuthenticationRoutes = {
 };
 export type HomeRoutes = {
   Authentication: undefined;
-  Home: undefined;
+  HomeApp: undefined;
+  Product: undefined;
+  Cart: undefined;
 };

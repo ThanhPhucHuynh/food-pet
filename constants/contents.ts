@@ -1,6 +1,7 @@
 import { AVPlaybackSource } from 'expo-av/build/AV';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ImageSourcePropType } from 'react-native';
+import { AvatarImageSource } from 'react-native-paper/lib/typescript/src/components/Avatar/AvatarImage';
 
 interface slidesProps {
   label: string;
@@ -12,6 +13,44 @@ interface slidesProps {
 interface PictureWelcomeProps {
   picture: any;
 }
+interface DrawerItemProps {
+  icon: any;
+  color: string;
+  screen: string;
+  label: string;
+}
+const DrawnItemList: DrawerItemProps[] = [
+  {
+    icon: 'home',
+    color: 'color1',
+    screen: 'HomeApp',
+    label: 'Home',
+  },
+  {
+    icon: 'food',
+    color: 'color2',
+    screen: 'Product',
+    label: 'Product',
+  },
+  {
+    icon: 'cart',
+    color: 'color3',
+    screen: 'Cart',
+    label: 'Cart',
+  },
+  {
+    icon: 'dns',
+    color: 'color4',
+    screen: 'Product',
+    label: 'Order',
+  },
+  {
+    icon: 'exit-to-app',
+    color: 'black',
+    screen: 'Home',
+    label: 'Logout',
+  },
+];
 const slides: slidesProps[] = [
   {
     label: 'Food',
@@ -47,8 +86,18 @@ const slides: slidesProps[] = [
   },
 ];
 const pictureContainer: ImageSourcePropType = require('../assets/images/background.jpg');
+const ButtonPicture: ImageSourcePropType = require('../assets/images/bottonPicture.jpg');
 const pictureWelcome: ImageSourcePropType = require('../assets/images/c6.png');
 const AvatarGuest = require('../assets/images/guest.png');
 const iconFacebook = require('../assets/svg/facebook.svg');
 const VideoContainer: AVPlaybackSource = require('../assets/video/clip3.mp4');
-export { slides, pictureWelcome, pictureContainer, VideoContainer, iconFacebook, AvatarGuest };
+export {
+  slides,
+  pictureWelcome,
+  pictureContainer,
+  VideoContainer,
+  iconFacebook,
+  AvatarGuest,
+  DrawnItemList,
+  ButtonPicture,
+};

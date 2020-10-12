@@ -5,9 +5,11 @@ import {
   AvatarGuest,
   pictureContainer,
   VideoContainer,
+  DrawnItemList,
+  ButtonPicture,
 } from './contents';
 import { fonts } from './fonts';
-import { width, height, theme, Text, Box } from './theme';
+import { width, height, theme, Text, Box, Drawer_Width } from './theme';
 export {
   fonts,
   width,
@@ -19,6 +21,9 @@ export {
   Box,
   pictureWelcome,
   pictureContainer,
+  ButtonPicture,
   VideoContainer,
+  DrawnItemList,
+  Drawer_Width,
   iconFacebook,
 };

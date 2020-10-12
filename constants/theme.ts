@@ -21,6 +21,12 @@ const palette = {
 
   grey: '#F4F0EF',
   defaultButton: 'rgba(12,13,52,0.05)',
+
+  color1: '#00b3a6',
+  color2: '#ff4417',
+  color3: '#e6aa05',
+  color4: '#ff7293',
+  color5: '#411db8',
 };
 
 const theme: BaseTheme = createTheme({
@@ -39,6 +45,11 @@ const theme: BaseTheme = createTheme({
     red: 'red',
     greenLight: palette.greenLight,
     blueDark: palette.blueDark,
+    color1: '#00b3a6',
+    color2: '#ff4417',
+    color3: '#f7f1c3',
+    color4: '#ff7293',
+    color5: '#411db8',
   },
   spacing: {
     baby: 2,
@@ -100,7 +111,13 @@ const theme: BaseTheme = createTheme({
       color: 'red',
     },
     name: {
-      fontSize: 20,
+      fontSize: 30,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Regular',
+      color: 'blueDark',
+    },
+    email: {
+      fontSize: 10,
       lineHeight: 30,
       fontFamily: 'Raleway-Regular',
       color: 'blueDark',
@@ -112,3 +129,4 @@ export type Theme = typeof theme;
 export const Text = createText<Theme>();
 export const Box = createBox<Theme>();
 export { width, height, theme };
+export const Drawer_Width = width * 0.8;

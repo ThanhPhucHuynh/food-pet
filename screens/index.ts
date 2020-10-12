@@ -5,3 +5,4 @@ export { default as Register, RegisterAsset } from './Register';
 export { default as Home } from './Home';
 export { default as Product } from './Product';
 export { default as DrawerScreen } from './DrawerScreen';
+export { default as Cart } from './Cart';

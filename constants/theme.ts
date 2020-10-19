@@ -21,7 +21,7 @@ const palette = {
 
   grey: '#F4F0EF',
   defaultButton: 'rgba(12,13,52,0.05)',
-
+  silverHeader: '#888888d4',
   color1: '#00b3a6',
   color2: '#ff4417',
   color3: '#e6aa05',
@@ -50,6 +50,8 @@ const theme: BaseTheme = createTheme({
     color3: '#f7f1c3',
     color4: '#ff7293',
     color5: '#411db8',
+    blueWhite: '#6fc3cd',
+    silverHeader: palette.silverHeader,
   },
   spacing: {
     baby: 2,
@@ -97,6 +99,18 @@ const theme: BaseTheme = createTheme({
       lineHeight: 30,
       fontFamily: 'Anodina-ExtraBold',
       color: 'titleBoarding',
+    },
+    titleDraw: {
+      fontSize: 20,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Regular',
+      color: 'white',
+    },
+    titleHeader: {
+      fontSize: 18,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Bold',
+      color: 'black',
     },
     body: {
       fontSize: 16,

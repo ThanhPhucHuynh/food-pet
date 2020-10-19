@@ -7,6 +7,7 @@ import {
   VideoContainer,
   DrawnItemList,
   ButtonPicture,
+  BackgroundPicture,
 } from './contents';
 import { fonts } from './fonts';
 import { width, height, theme, Text, Box, Drawer_Width } from './theme';
@@ -26,4 +27,5 @@ export {
   DrawnItemList,
   Drawer_Width,
   iconFacebook,
+  BackgroundPicture,
 };

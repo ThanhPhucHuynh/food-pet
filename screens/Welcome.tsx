@@ -77,7 +77,7 @@ const Welcome = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Wel
           <Button
             label="Join us"
             onPress={() => {
-              AsyncStorage.removeItem('token');
+              navigation.navigate('Home');
             }}
           />
           <Button onPress={onPressA} variant="transparent" label="Forgot password?" />

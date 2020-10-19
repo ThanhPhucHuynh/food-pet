@@ -37,7 +37,7 @@ const Login = ({ navigation }: AuthNavigationProps<'Login'>) => {
   React.useEffect(() => {
     (async () => {
       const token_vale = await AsyncStorage.getItem('token');
-      // console.log(token_vale);
+      // console.log();
     })();
   }, []);
 

@@ -15,10 +15,16 @@ import { fonts, theme } from './constants';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HomeRoutes, AuthenticationNavigator, HomeNavigator } from './navigation';
 import { store } from './redux';
-import { WelcomeAssets, LoginAsset, RegisterAsset } from './screens';
+import { WelcomeAssets, LoginAsset, RegisterAsset, DrawerAssets } from './screens';
 //redux
 //import font,theme
-const assets = [...OnboardingAssets, ...WelcomeAssets, ...LoginAsset, ...RegisterAsset];
+const assets = [
+  ...OnboardingAssets,
+  ...WelcomeAssets,
+  ...LoginAsset,
+  ...RegisterAsset,
+  ...DrawerAssets,
+];
 
 const AppStack = createStackNavigator<HomeRoutes>();
 

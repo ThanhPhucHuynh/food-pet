@@ -1,5 +1,6 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { DrawerItemList } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,6 +9,8 @@ import { Avatar } from 'react-native-paper';
 import { DrawerItem } from '../components';
 import { AvatarGuest, Box, height, Text, DrawnItemList, ButtonPicture, width } from '../constants';
 import { HOST } from '../constants/service';
+
+export const assets = [AvatarGuest, ButtonPicture];
 interface DrawerScreenProps {
   user?: any;
   isLogin?: boolean;
@@ -26,9 +29,6 @@ const styles = StyleSheet.create({
   },
 });
 const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
-  //   const { user } = useSelector((state: ApplicationState) => state.userReducer);
-  //   const dispatch = useDispatch()
-  // console.log(user, isLogin);
   const navigation = useNavigation();
   const urlAvatar = !isLogin ? AvatarGuest : { uri: HOST + user.avatar };
   const name = !isLogin ? 'Guest' : user.name;
@@ -59,8 +59,26 @@ const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
           right={0}
           bottom={0}
           borderBottomRightRadius="xl"
-          backgroundColor="secondary"
-        />
+          backgroundColor="secondary">
+          <Box flexDirection="row" justifyContent="space-between" margin="xl">
+            <Box>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                }}>
+                <MaterialCommunityIcons name="location-exit" size={24} color="white" />
+              </TouchableOpacity>
+            </Box>
+            <Box>
+              <Text variant="titleDraw">MY PROFILE</Text>
+            </Box>
+            <Box>
+              <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                <MaterialCommunityIcons name="cart" size={24} color="white" />
+              </TouchableOpacity>
+            </Box>
+          </Box>
+        </Box>
       </Box>
       <Box flex={0.8}>
         <Box flex={1} backgroundColor="secondary" />

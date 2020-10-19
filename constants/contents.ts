@@ -86,6 +86,7 @@ const slides: slidesProps[] = [
   },
 ];
 const pictureContainer: ImageSourcePropType = require('../assets/images/background.jpg');
+const BackgroundPicture: ImageSourcePropType = require('../assets/images/backgroundPicture_2.jpg');
 const ButtonPicture: ImageSourcePropType = require('../assets/images/bottonPicture.jpg');
 const pictureWelcome: ImageSourcePropType = require('../assets/images/c6.png');
 const AvatarGuest = require('../assets/images/guest.png');
@@ -100,4 +101,5 @@ export {
   AvatarGuest,
   DrawnItemList,
   ButtonPicture,
+  BackgroundPicture,
 };

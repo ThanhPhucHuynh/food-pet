@@ -7,3 +7,5 @@ export { default as DrawerItem } from './Drawer/DrawerItem';
 export { default as Header } from './Header';
 export { default as BackgroundHome } from './Home/Background';
 export { default as CardHome } from './Home/CardHome';
+export { default as CardProduct } from './Product/CardProduct';
+export { default as SearchBar } from './Product/SearchBar';

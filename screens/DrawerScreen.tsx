@@ -107,7 +107,11 @@ const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
             // alignItems="center"
             padding="xl">
             {DrawnItemList.map((item, index) => {
-              return <DrawerItem key={index} {...item} />;
+              return item.label === 'Logout' && !isLogin ? (
+                <></>
+              ) : (
+                <DrawerItem key={index} {...item} />
+              );
             })}
           </Box>
         </Box>

@@ -24,6 +24,8 @@ export type AuthenticationRoutes = {
   Login: undefined;
   Register: undefined;
   Home: undefined;
+  Detail: undefined;
+  Product: undefined;
 };
 export type HomeRoutes = {
   Home: undefined;
@@ -31,4 +33,5 @@ export type HomeRoutes = {
   HomeApp: undefined;
   Product: undefined;
   Cart: undefined;
+  // Detail: undefined;
 };

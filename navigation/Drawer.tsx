@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Drawer_Width } from '../constants';
 import { ApplicationState, checkIsLogin } from '../redux';
-import { Cart, DrawerScreen, Home, Product } from '../screens';
+import { Cart, Detail, DrawerScreen, Home, Product } from '../screens';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   HomeRoutes,
@@ -52,6 +52,7 @@ export const HomeNavigator = ({ navigation }: AuthNavigationProps<'Home'>) => {
       <Drawer.Screen name="HomeApp" component={Home} />
       <Drawer.Screen name="Product" component={Product} />
       <Drawer.Screen name="Cart" component={Cart} />
+      <Drawer.Screen name="Detail" initialParams={{ _id: '' }} component={Detail} />
     </Drawer.Navigator>
   );
 };

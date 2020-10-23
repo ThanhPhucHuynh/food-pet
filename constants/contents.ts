@@ -47,7 +47,7 @@ const DrawnItemList: DrawerItemProps[] = [
   {
     icon: 'exit-to-app',
     color: 'black',
-    screen: 'Home',
+    screen: 'Logout',
     label: 'Logout',
   },
 ];

@@ -1,4 +1,4 @@
-import { AntDesign, Entypo } from '@expo/vector-icons';
+import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -21,9 +21,15 @@ const Header = ({ label }: HeaderProps) => {
       <Box>
         <TouchableOpacity
           onPress={() => {
-            navigation.dispatch(DrawerActions.openDrawer());
+            if (label === 'Detail') {
+              navigation.goBack();
+            } else navigation.dispatch(DrawerActions.openDrawer());
           }}>
-          <Entypo name="menu" size={24} color="black" />
+          {label === 'Detail' ? (
+            <MaterialIcons name="keyboard-backspace" size={24} color="black" />
+          ) : (
+            <Entypo name="menu" size={24} color="black" />
+          )}
         </TouchableOpacity>
       </Box>
       <Box>

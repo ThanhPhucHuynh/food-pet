@@ -1,30 +1,62 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { mixColor, mix, usePanGestureHandler, withSpring } from 'react-native-redash/lib/module/v1';
 
 // import {useSpring} from 'react-native-redash'
-import { Box, height, width } from '../../constants';
+import { Box, height, Text, width } from '../../constants';
+import { HOST } from '../../constants/service';
 
 interface CardProps {
   position: Animated.Adaptable<number>;
+  product: {
+    _id: string;
+    name: string;
+    description: string;
+    picture: string[];
+    price: number;
+    number: number;
+  };
+  // name: string;
+  numberSale: number;
+  // description: number;
+  // picture: string[];
+  // _id: string;
+  // price: number;
+  // onSwipe: () => void;
   //   position: number;
 }
 const widthCard = width * 0.75;
-const heightCard = widthCard * 1.2;
-
-const CardHome = ({ position }: CardProps) => {
+const heightCard = widthCard * 1.7;
+const styles = StyleSheet.create({
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+  },
+  picture: {
+    ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    borderTopLeftRadius: 40,
+  },
+});
+const CardHome = ({ position, product, numberSale }: CardProps) => {
   const { gestureHandler, translation, velocity, state } = usePanGestureHandler();
   const backgroundColor = mixColor(position, '#C9E9E7', '#74BCB8');
+
   const translateY = mix(position, 0, -50);
   const translateX = withSpring({
     value: translation.x,
     velocity: velocity.x,
     state,
     snapPoints: [-widthCard, 0, widthCard],
+    // onSnap: ([x]) => x !== 0 && onSwipe(),
   });
   const scale = mix(position, 1, 0.9);
+  useEffect(() => {
+    // console.log('ada', product);
+  }, []);
   return (
     <Box style={StyleSheet.absoluteFill} justifyContent="center" alignItems="center">
       <PanGestureHandler {...gestureHandler}>
@@ -35,8 +67,84 @@ const CardHome = ({ position }: CardProps) => {
             backgroundColor,
             borderRadius: 24,
             transform: [{ translateY, translateX, scale }],
-          }}
-        />
+          }}>
+          <Box style={{ marginTop: 20 }}>
+            <Text
+              textAlign="center"
+              variant="titlePriceCard"
+              style={{
+                textTransform: 'uppercase',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 12,
+                },
+                shadowOpacity: 0.58,
+                shadowRadius: 16.0,
+                elevation: 24,
+              }}>
+              Top {numberSale} Selling
+            </Text>
+          </Box>
+          <Box flex={0.7}>
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              borderTopLeftRadius="xl"
+              margin="xl">
+              <Animated.View style={styles.underlay}>
+                <Image
+                  source={{ uri: HOST + product.picture[0] }}
+                  style={{
+                    ...StyleSheet.absoluteFillObject,
+                    width: undefined,
+                    height: undefined,
+                    borderRadius: 24,
+                  }}
+                />
+              </Animated.View>
+            </Box>
+          </Box>
+          <Box style={{ marginTop: 20 }}>
+            <Text
+              textAlign="center"
+              variant="titleHomeCard"
+              style={{
+                textTransform: 'uppercase',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 12,
+                },
+                shadowOpacity: 0.58,
+                shadowRadius: 16.0,
+                elevation: 24,
+              }}>
+              {product.name}
+            </Text>
+          </Box>
+          <Box style={{ marginTop: 20 }}>
+            <Text
+              textAlign="center"
+              variant="titlePriceCard"
+              style={{
+                textTransform: 'uppercase',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 12,
+                },
+                shadowOpacity: 0.58,
+                shadowRadius: 16.0,
+                elevation: 24,
+              }}>
+              $ {product.price}
+            </Text>
+          </Box>
+        </Animated.View>
       </PanGestureHandler>
     </Box>
   );

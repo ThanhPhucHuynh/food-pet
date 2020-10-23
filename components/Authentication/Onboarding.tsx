@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { width, height, slides, theme } from '../../constants';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AuthNavigationProps } from '../../navigation/Navigation';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApplicationState, checkIsLogin } from '../../redux';
 import Dot from './Dot';
 import Slide from './Slide';

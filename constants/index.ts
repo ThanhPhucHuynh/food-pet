@@ -10,13 +10,14 @@ import {
   BackgroundPicture,
 } from './contents';
 import { fonts } from './fonts';
-import { width, height, theme, Text, Box, Drawer_Width } from './theme';
+import { width, height, theme, Text, Box, Drawer_Width, colorArray } from './theme';
 export {
   fonts,
   width,
   height,
   slides,
   theme,
+  colorArray,
   Text,
   AvatarGuest,
   Box,

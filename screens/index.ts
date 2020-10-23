@@ -6,3 +6,4 @@ export { default as Home } from './Home';
 export { default as Product } from './Product';
 export { default as DrawerScreen, assets as DrawerAssets } from './DrawerScreen';
 export { default as Cart } from './Cart';
+export { default as Detail } from './Detail';

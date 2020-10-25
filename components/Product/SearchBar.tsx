@@ -1,6 +1,6 @@
 import { AntDesign } from '@expo/vector-icons';
 import { backgroundColor } from '@shopify/restyle';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Button, Chip, Searchbar } from 'react-native-paper';
 
@@ -21,7 +21,9 @@ const SearchBar = ({ onChangeSearch, onChangeFiller }: SearchBarProps) => {
     setSearchQuery(query);
     onChangeSearch(query);
   };
-
+  useEffect(() => {
+    onChangeFiller(filler);
+  }, [filler]);
   return (
     <Box>
       <Searchbar placeholder="Search" onChangeText={onChangeSearchP} value={searchQuery} />
@@ -32,6 +34,7 @@ const SearchBar = ({ onChangeSearch, onChangeFiller }: SearchBarProps) => {
           const backgroundColor = filler.indexOf(type) !== -1 ? '#43a7d9' : 'white';
           return (
             <Box
+              key={i}
               justifyContent="space-between"
               alignItems="center"
               style={{ margin: 2, marginTop: 5 }}>
@@ -51,14 +54,14 @@ const SearchBar = ({ onChangeSearch, onChangeFiller }: SearchBarProps) => {
             </Box>
           );
         })}
-        <Box
+        {/* <Box
           justifyContent="space-between"
           alignItems="center"
           style={{ margin: 2, marginTop: 5, marginLeft: 20 }}>
           <TouchableOpacity onPress={() => onChangeFiller(filler)}>
             <AntDesign name="filter" size={24} color="black" />
           </TouchableOpacity>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

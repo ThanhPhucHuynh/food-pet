@@ -29,7 +29,7 @@ const DrawnItemList: DrawerItemProps[] = [
   {
     icon: 'food',
     color: 'color2',
-    screen: 'Product',
+    screen: 'ProductStack',
     label: 'Product',
   },
   {

@@ -13,10 +13,10 @@ interface CardProps {
   product: {
     _id: string;
     name: string;
-    description: string;
-    picture: string[];
-    price: number;
-    number: number;
+    description?: string;
+    picture?: string[];
+    price?: number;
+    number?: number;
   };
   // name: string;
   numberSale: number;

@@ -28,10 +28,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
   },
 });
-const DrawerScreen = ({ user, isLogin, onPress }: DrawerScreenProps) => {
+const DrawerScreen = ({ user, isLogin }: DrawerScreenProps) => {
   const navigation = useNavigation();
   const urlAvatar = !isLogin ? AvatarGuest : { uri: HOST + user.avatar };
   const name = !isLogin ? 'Guest' : user.name;
+  const onPress = () => {
+    if (!isLogin) {
+      navigation.navigate('Login');
+    }
+  };
   const BtnLogin = () =>
     !isLogin ? (
       <TouchableOpacity {...{ onPress }}>

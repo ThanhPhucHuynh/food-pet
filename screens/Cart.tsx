@@ -3,17 +3,17 @@ import { View, Text, AsyncStorage } from 'react-native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Button } from '../components';
+import { Button, Header } from '../components';
+import { Box } from '../constants';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApplicationState, checkIsLogin } from '../redux';
 
 const Cart = () => {
   return (
-    <View>
-      <Text>Cart Page</Text>
-      <Button label="Cart" onPress={async () => {}} />
-      <Text>Cart</Text>
-    </View>
+    <Box flex={1} backgroundColor="white">
+      <Header label="Cart" />
+      <Box flex={1} />
+    </Box>
   );
 };
 export default Cart;

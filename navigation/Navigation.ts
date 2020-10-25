@@ -24,6 +24,8 @@ export type AuthenticationRoutes = {
   Login: undefined;
   Register: undefined;
   Home: undefined;
+};
+export type AuthenticationRoutesProduct = {
   Detail: undefined;
   Product: undefined;
 };

@@ -2,8 +2,9 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { useTheme } from '@shopify/restyle';
 import React, { useEffect, useState } from 'react';
-import { View, Text, AsyncStorage, ScrollView } from 'react-native';
+import { View, Text, AsyncStorage, ScrollView, BackHandler } from 'react-native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { SharedElement } from 'react-navigation-shared-element';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { BackgroundHome, Button, CardProduct, Header, SearchBar } from '../components';
@@ -64,16 +65,22 @@ const Product = () => {
             {products ? (
               products
                 .filter((_, i) => i % 2 !== 0)
-                .map((product) => (
+                .map((product, i) => (
                   <CardProduct
+                    productId={product._id}
+                    index={i}
                     onPress={() => {
-                      navigation.navigate('Detail', { product });
+                      // navigation.navigate('Detail', { product, _id: user ? user._id : '' });
+                      navigation.navigate('ProductStack', {
+                        screen: 'Detail',
+                        params: { product, _id: user ? user._id : '', productId: product._id },
+                      });
                     }}
                     key={product._id}
-                    // color={colorArray[Math.floor(Math.random() * colorArray.length)]}
-                    color="rgba(171, 168, 168, 0.75)"
-                    // aspectRatio={(210 + Math.floor(Math.random() * 20)) / 145}
-                    aspectRatio={210 / 145}
+                    color={colorArray[Math.floor(Math.random() * colorArray.length)]}
+                    // color="rgba(171, 168, 168, 0.75)"
+                    aspectRatio={(210 + Math.floor(Math.random() * 20)) / 145}
+                    // aspectRatio={210 / 145}
                     id={product._id}
                     width={width}
                     product={product}
@@ -87,16 +94,22 @@ const Product = () => {
             {products ? (
               products
                 .filter((_, i) => i % 2 === 0)
-                .map((product) => (
+                .map((product, i) => (
                   <CardProduct
+                    productId={product._id}
+                    index={i}
+                    key={i}
                     onPress={() => {
-                      navigation.navigate('Detail', { product });
+                      navigation.navigate('ProductStack', {
+                        screen: 'Detail',
+                        params: { product, _id: user ? user._id : '', productId: product._id },
+                      });
                     }}
-                    key={product._id}
-                    // color={colorArray[Math.floor(Math.random() * colorArray.length)]}
-                    color="rgba(171, 168, 168, 0.75)"
-                    // aspectRatio={(210 + Math.floor(Math.random() * 20)) / 145}
-                    aspectRatio={210 / 145}
+                    // key={product._id}
+                    color={colorArray[Math.floor(Math.random() * colorArray.length)]}
+                    // color="rgba(171, 168, 168, 0.75)"
+                    aspectRatio={(210 + Math.floor(Math.random() * 20)) / 145}
+                    // aspectRatio={210 / 145}
                     id={product._id}
                     product={product}
                     width={width}

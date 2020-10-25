@@ -1,12 +1,13 @@
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Image, StyleSheet, TouchableOpacity, Animated, View } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import Animated, { Extrapolate, interpolate } from 'react-native-reanimated';
+import { Extrapolate, interpolate, Transition, Transitioning } from 'react-native-reanimated';
 import { mixColor, mix, usePanGestureHandler, withSpring } from 'react-native-redash/lib/module/v1';
+import { SharedElement } from 'react-navigation-shared-element';
 
 import { Box, Text } from '../../constants';
 import { HOST } from '../../constants/service';
-
 interface CardProductProps {
   color: string;
   aspectRatio: number;
@@ -21,7 +22,9 @@ interface CardProductProps {
     price: number;
     number: number;
   };
+  index: number;
   onPress: () => void;
+  productId: string;
 }
 const styles = StyleSheet.create({
   underlay: {
@@ -40,11 +43,14 @@ const CardProduct = ({
   aspectRatio,
   width,
   product,
+  productId,
   onPress,
+  index,
 }: CardProductProps) => {
-  const opacity = new Animated.Value(0);
+  const [load, setLoad] = useState(true);
+  const x = new Animated.Value(0);
   const { gestureHandler, translation, velocity, state } = usePanGestureHandler();
-
+  const ref = useRef();
   const translateY = mix(50, 0, -50);
   const translateX = withSpring({
     value: translation.x,
@@ -53,90 +59,123 @@ const CardProduct = ({
     snapPoints: [-width, 0, width],
     // onSnap: ([x]) => x !== 0 && onSwipe(),
   });
+  useEffect(() => {
+    setLoad(!load);
+  }, [productId]);
+  const scale = x.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [1, 1.1, 1.2],
+  });
+  const transition = () => (
+    <Transition.Together>
+      {' '}
+      <Transition.In type="scale" durationMs={1000} interpolation="easeIn" />
+    </Transition.Together>
+  );
+  let startAncestor;
+  let startNode;
   return (
-    <Box
-      borderRadius="m"
-      marginBottom="m"
+    <Animatable.View
+      useNativeDriver
+      animation="fadeIn"
+      duration={100}
+      delay={index + 150}
       style={{
         // backgroundColor,
         width,
         height: width * aspectRatio,
+        borderRadius: 8,
+        marginBottom: 8,
       }}>
-      <TouchableOpacity style={{ ...StyleSheet.absoluteFillObject }} {...{ onPress }}>
-        <Box
-          margin="s"
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          opacity={0.2}
-          flex={0.2}>
-          <Text style={{ backgroundColor: 'white' }}>{product.type ? product.type : ''}</Text>
-        </Box>
-        <Box
-          borderRadius="m"
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          opacity={0.2}
-          flex={1}
-          style={{
-            backgroundColor,
-          }}
-        />
-        <Box flex={0.7}>
+      <Animated.View
+        style={{
+          // backgroundColor,
+          width,
+          height: width * aspectRatio,
+        }}>
+        <TouchableOpacity style={{ ...StyleSheet.absoluteFillObject }} {...{ onPress }}>
           <Box
+            margin="s"
             position="absolute"
             top={0}
             left={0}
             right={0}
             bottom={0}
-            borderTopLeftRadius="xl"
-            margin="xl">
-            <Animated.View style={styles.underlay}>
-              <Image
-                source={{ uri: HOST + product.picture[0] }}
+            opacity={0.2}
+            flex={0.2}>
+            <Text style={{ backgroundColor: 'white' }}>{product.type ? product.type : ''}</Text>
+          </Box>
+          <Box
+            borderRadius="m"
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            opacity={0.2}
+            flex={1}
+            style={{
+              backgroundColor,
+            }}
+          />
+          <Box flex={0.7}>
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              borderTopLeftRadius="xl"
+              margin="xl">
+              {/* <SharedElement onNode={(node) => (startNode = node)}> */}
+              <SharedElement id={`item.${productId}.photo`} style={styles.underlay}>
+                <Animatable.View
+                  style={styles.underlay}
+                  animation="fadeIn"
+                  // ref={(ref) => (startAncestor = nodeFromRef(ref))}
+                  duration={1000}>
+                  <Image
+                    source={{ uri: HOST + product.picture[0] }}
+                    style={{
+                      ...StyleSheet.absoluteFillObject,
+                      width: undefined,
+                      height: undefined,
+                      borderRadius: 24,
+                    }}
+                  />
+                </Animatable.View>
+              </SharedElement>
+            </Box>
+          </Box>
+          <Box flex={0.3}>
+            <Box>
+              <Text
+                textAlign="center"
+                variant="titleProductCard"
                 style={{
-                  ...StyleSheet.absoluteFillObject,
-                  width: undefined,
-                  height: undefined,
-                  borderRadius: 24,
-                }}
-              />
-            </Animated.View>
+                  textTransform: 'uppercase',
+                }}>
+                {product.name}
+              </Text>
+            </Box>
+            <Box marginLeft="s">
+              <Text
+                opacity={0.5}
+                textAlign="center"
+                variant="titlePriceProductCard"
+                style={{
+                  textDecorationLine: 'line-through',
+                }}>
+                ${(product.price * (130 / 100)).toFixed(2)}
+              </Text>
+              <Text textAlign="center" variant="titlePriceProductCard" style={{ fontSize: 16 }}>
+                ${product.price}
+              </Text>
+            </Box>
           </Box>
-        </Box>
-        <Box flex={0.3}>
-          <Box>
-            <Text
-              textAlign="center"
-              variant="titleProductCard"
-              style={{
-                textTransform: 'uppercase',
-              }}>
-              {product.name}
-            </Text>
-          </Box>
-          <Box marginLeft="s">
-            <Text
-              opacity={0.5}
-              textAlign="center"
-              variant="titlePriceProductCard"
-              style={{
-                textDecorationLine: 'line-through',
-              }}>
-              ${(product.price * (130 / 100)).toFixed(2)}
-            </Text>
-            <Text textAlign="center" variant="titlePriceProductCard" style={{ fontSize: 16 }}>
-              ${product.price}
-            </Text>
-          </Box>
-        </Box>
-      </TouchableOpacity>
-    </Box>
+        </TouchableOpacity>
+      </Animated.View>
+    </Animatable.View>
   );
 };
 export default CardProduct;

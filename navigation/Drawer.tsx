@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Drawer_Width } from '../constants';
 import { ApplicationState, checkIsLogin } from '../redux';
 import { Cart, Detail, DrawerScreen, Home, Product } from '../screens';
+import { AuthenticationNavigatorProduct } from './Authentication';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   HomeRoutes,
@@ -13,9 +14,12 @@ import {
   StackNavigationProps,
   AuthNavigationProps,
 } from './Navigation';
+// Ignore log notification by message
 
 const Drawer = createDrawerNavigator();
 export const HomeNavigator = ({ navigation }: AuthNavigationProps<'Home'>) => {
+  // console.disableYellowBox = true;
+
   const { user, isLogin } = useSelector((state: ApplicationState) => state.userReducer);
   const [userProps, setUserProps] = useState(null);
   const dispatch = useDispatch();
@@ -28,29 +32,23 @@ export const HomeNavigator = ({ navigation }: AuthNavigationProps<'Home'>) => {
       });
     }
   }, []);
-  const DrawerContent = () => {
-    if (isLogin) {
-      return <DrawerScreen {...{ user }} isLogin={isLogin} />;
-    } else {
-      return (
-        <DrawerScreen
-          {...{ user }}
-          isLogin={isLogin}
-          onPress={() => {
-            navigation.navigate('Login');
-          }}
-        />
-      );
-    }
-  };
+  console.disableYellowBox = true;
   return (
     <Drawer.Navigator
-      drawerContent={() => <DrawerContent />}
+      drawerContent={(props) => {
+        return (
+          <DrawerScreen
+            {...props}
+            {...{ user, isLogin }}
+            key={props.state.routeNames[props.state.index]}
+          />
+        );
+      }}
       drawerStyle={{
         width: Drawer_Width,
       }}>
       <Drawer.Screen name="HomeApp" component={Home} />
-      <Drawer.Screen name="Product" component={Product} />
+      <Drawer.Screen name="ProductStack" component={AuthenticationNavigatorProduct} />
       <Drawer.Screen name="Cart" component={Cart} />
       <Drawer.Screen name="Detail" initialParams={{ _id: '' }} component={Detail} />
     </Drawer.Navigator>

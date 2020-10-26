@@ -18,7 +18,7 @@ import { AuthenticationRoutes, AuthNavigationProps, HomeRoutes } from '../naviga
 interface LoginProps {
   navigation: CompositeNavigationProp<
     StackNavigationProp<AuthenticationRoutes, 'Login'>,
-    DrawerNavigationProp<HomeRoutes, 'HomeApp'>
+    DrawerNavigationProp<HomeRoutes, 'HomeDraw'>
   >;
 }
 

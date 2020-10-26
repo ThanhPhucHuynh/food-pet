@@ -10,3 +10,4 @@ export { default as CardHome } from './Home/CardHome';
 export { default as CardProduct } from './Product/CardProduct';
 export { default as SearchBar } from './Product/SearchBar';
 export { AlertHelper } from './Alert';
+export { default as CardProductCart } from './Cart/CardProductCart';

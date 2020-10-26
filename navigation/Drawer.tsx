@@ -6,7 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Drawer_Width } from '../constants';
 import { ApplicationState, checkIsLogin } from '../redux';
 import { Cart, Detail, DrawerScreen, Home, Product } from '../screens';
-import { AuthenticationNavigatorProduct } from './Authentication';
+import {
+  AuthenticationNavigatorCart,
+  AuthenticationNavigatorHome,
+  AuthenticationNavigatorProduct,
+} from './Authentication';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   HomeRoutes,
@@ -17,7 +21,7 @@ import {
 // Ignore log notification by message
 
 const Drawer = createDrawerNavigator();
-export const HomeNavigator = ({ navigation }: AuthNavigationProps<'Home'>) => {
+export const HomeNavigator = () => {
   // console.disableYellowBox = true;
 
   const { user, isLogin } = useSelector((state: ApplicationState) => state.userReducer);
@@ -47,9 +51,9 @@ export const HomeNavigator = ({ navigation }: AuthNavigationProps<'Home'>) => {
       drawerStyle={{
         width: Drawer_Width,
       }}>
-      <Drawer.Screen name="HomeApp" component={Home} />
+      <Drawer.Screen name="HomeDraw" component={AuthenticationNavigatorHome} />
       <Drawer.Screen name="ProductStack" component={AuthenticationNavigatorProduct} />
-      <Drawer.Screen name="Cart" component={Cart} />
+      <Drawer.Screen name="CartDraw" component={AuthenticationNavigatorCart} />
       <Drawer.Screen name="Detail" initialParams={{ _id: '' }} component={Detail} />
     </Drawer.Navigator>
   );

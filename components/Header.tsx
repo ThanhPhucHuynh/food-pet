@@ -24,6 +24,10 @@ const Header = ({ label }: HeaderProps) => {
           onPress={() => {
             if (label === 'Detail') {
               navigation.goBack();
+              // navigation.dispatch(DrawerActions.openDrawer());
+              // navigation.navigate('ProductStack', {
+              //   screen: 'Product',
+              // });
             } else navigation.dispatch(DrawerActions.openDrawer());
           }}>
           {label === 'Detail' ? (

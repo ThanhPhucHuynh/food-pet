@@ -18,12 +18,13 @@ interface DrawerItemProps {
   icon: any;
   color: any;
   screen: any;
+  ComponentScreen?: string[];
   label: string;
 }
 
-const DrawerItem = ({ icon, color, screen, label }: DrawerItemProps) => {
+const DrawerItem = ({ icon, color, screen, label, ComponentScreen }: DrawerItemProps) => {
   //   console.log(screen);
-  const { navigate, goBack } = useNavigation<DrawerNavigationProp<HomeRoutes, 'HomeApp'>>();
+  const { navigate, goBack } = useNavigation<DrawerNavigationProp<HomeRoutes, 'HomeDraw'>>();
   //   const navigation = useNavigation<StackNavigationProp<AuthenticationRoutes, 'Login'>>();
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -42,7 +43,7 @@ const DrawerItem = ({ icon, color, screen, label }: DrawerItemProps) => {
         if (screen === 'Logout') {
           const data = await LogoutService();
           dispatch(checkIsLogin());
-          navigate('HomeApp');
+          navigate('HomeDraw');
         } else {
           setLoading(false);
 

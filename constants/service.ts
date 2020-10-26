@@ -1,12 +1,26 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-export const HOST: string = 'http://192.168.1.172:3000/';
+export const HOST: string = 'http://10.233.2.245:3000/';
 
 interface LoginServiceProps {
   account: string;
   password: string;
 }
 
+interface CartProps {
+  userId: string;
+  products: [
+    {
+      productId: string;
+      quantity: number;
+      name: string;
+      price: number;
+      pictureItem: string;
+    }
+  ];
+  active: boolean;
+  modifiedOn: Date;
+}
 export const LoginService = async (account: string, password: string) => {
   const data = await axios
     .post(HOST + 'users/login', { email: account, password })
@@ -64,15 +78,10 @@ export const AddToCartService = async (
   productId: string,
   quantity: number,
   name: string,
-  price: number
+  price: number,
+  pictureItem: string
 ) => {
-  const cart = {
-    userId,
-    productId,
-    quantity,
-    name,
-    price,
-  };
+  console.log(pictureItem);
 
   const data = await axios
     .post(HOST + 'carts/add', {
@@ -81,9 +90,30 @@ export const AddToCartService = async (
       quantity,
       name,
       price,
+      pictureItem,
     })
     .then(async (res) => {
       //   console.log(res.data);
+      return res.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return false;
+    });
+  return data;
+};
+
+export const CartUserService: any = async () => {
+  const token = await AsyncStorage.getItem('token');
+  const data = axios
+    .get(HOST + 'carts/user', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(async (res) => {
+      console.log(res.data);
+
       return res.data;
     })
     .catch(function (error) {

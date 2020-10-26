@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
   },
 });
-const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeApp'>) => {
+const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) => {
   //   const navigation = useNavigation();
   const dispatch = useDispatch();
   let endAncestor;
@@ -94,7 +94,7 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeApp'>) => 
   }, [route.params.product._id, userID, name]);
   const AddToCart = async () => {
     setIsLoading(true);
-    const data = await AddToCartService(userID, productID, numberChoose, name, price);
+    const data = await AddToCartService(userID, productID, numberChoose, name, price, pics[0]);
     setIsLoading(false);
   };
   return (

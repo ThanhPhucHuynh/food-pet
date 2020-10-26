@@ -160,6 +160,18 @@ const theme: BaseTheme = createTheme({
       fontFamily: 'Raleway-Regular',
       color: 'blueDark',
     },
+    nameCart: {
+      fontSize: 20,
+      lineHeight: 30,
+      fontFamily: 'Raleway-Regular',
+      color: 'blueDark',
+    },
+    priceCart: {
+      fontSize: 20,
+      lineHeight: 30,
+      // fontFamily: 'Raleway-Regular',
+      color: 'color2',
+    },
   },
 });
 

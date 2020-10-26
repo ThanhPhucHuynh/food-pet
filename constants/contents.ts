@@ -18,24 +18,26 @@ interface DrawerItemProps {
   color: string;
   screen: string;
   label: string;
+  ComponentScreen?: string[];
 }
 const DrawnItemList: DrawerItemProps[] = [
   {
     icon: 'home',
     color: 'color1',
-    screen: 'HomeApp',
+    screen: 'HomeDraw',
     label: 'Home',
   },
   {
     icon: 'food',
     color: 'color2',
     screen: 'ProductStack',
+    ComponentScreen: ['Product', 'Detail'],
     label: 'Product',
   },
   {
     icon: 'cart',
     color: 'color3',
-    screen: 'Cart',
+    screen: 'CartDraw',
     label: 'Cart',
   },
   {

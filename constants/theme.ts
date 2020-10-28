@@ -172,6 +172,12 @@ const theme: BaseTheme = createTheme({
       // fontFamily: 'Raleway-Regular',
       color: 'color2',
     },
+    titlePrice: {
+      fontSize: 30,
+      lineHeight: 30,
+      // fontFamily: 'Raleway-Regular',
+      color: 'red',
+    },
   },
 });
 

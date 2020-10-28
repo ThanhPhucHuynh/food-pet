@@ -1,16 +1,13 @@
-import { AntDesign } from '@expo/vector-icons';
-import { backgroundColor } from '@shopify/restyle';
-import React, { useEffect, useRef, useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity, Animated, View } from 'react-native';
+import { AntDesign, Entypo } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import { Button } from 'react-native-paper';
-import { mixColor, mix, usePanGestureHandler, withSpring } from 'react-native-redash/lib/module/v1';
+import { ActivityIndicator, Colors } from 'react-native-paper';
+import Swipeable from 'react-native-swipeable';
 
 import { Box, Text, width } from '../../constants';
-import { AddToCartService, HOST } from '../../constants/service';
-import FABComponent from './FAB';
-import ListAvtion from './ListAction';
+import { HOST } from '../../constants/service';
+
 interface CartItemProps {
   productId: string | '';
   quantity: number | 0;
@@ -29,19 +26,35 @@ const styles = StyleSheet.create({
     height: undefined,
     borderTopLeftRadius: 40,
   },
+  leftAction: {
+    flex: 0.5,
+    backgroundColor: '#497AFC',
+    justifyContent: 'center',
+  },
+  actionText: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: 'transparent',
+    padding: 10,
+  },
+  rightAction: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 interface CardProductCartProps {
   product: any;
-  userId: any;
+  userId?: any;
   onPress: (productId: string, quantity: number) => void;
 }
+
 const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => {
-  const { gestureHandler, translation, velocity, state } = usePanGestureHandler();
-
-  const [widthAction, setWidthAction] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [item, setItem] = useState<CartItemProps>();
-
-  // const [name,setName] = useState
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadingMinus, setLoadingMinus] = React.useState<boolean>(false);
+  const [loadingPlush, setLoadingPlush] = React.useState<boolean>(false);
 
   useEffect(() => {
     const { productId, quantity, name, price, pictureItem } = product;
@@ -49,101 +62,152 @@ const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => 
     console.log(productId, 's');
   }, []);
 
-  return (
-    <Animatable.View style={{ flex: 1 }}>
-      <Box
+  const leftContent = <Text>Pull to activate</Text>;
+
+  const rightButtons = [
+    <TouchableOpacity
+      style={{ flex: 1 }}
+      onPress={async () => {
+        setLoading(true);
+        await onPress(product.productId, 0);
+        setLoading(false);
+      }}>
+      <Animatable.View
+        // flex={1}
+        animation="fadeIn"
+        duration={100}
         style={{
-          ...StyleSheet.absoluteFillObject,
-          backgroundColor: 'silver',
-          opacity: 0.2,
-          margin: 5,
-          borderRadius: 5,
-        }}
-      />
-      <Animated.View>
-        <Box flexDirection="row" style={{ height: 'auto', width, margin: 10 }}>
-          <Box style={{ height: 100, width: 100 }}>
-            <Animatable.View
-              style={styles.underlay}
-              animation="fadeIn"
-              // ref={(ref) => (startAncestor = nodeFromRef(ref))}
-              duration={1000}>
-              <Image
-                source={{ uri: HOST + product.pictureItem }}
-                style={{
-                  ...StyleSheet.absoluteFillObject,
-                  width: undefined,
-                  height: undefined,
-                  borderRadius: 24,
-                }}
-              />
-            </Animatable.View>
-          </Box>
-          <Box flex={1} style={{ marginLeft: 10 }}>
-            <Box flexDirection="row" justifyContent="space-between">
-              <Box>
-                <Text variant="nameCart">{product.name}</Text>
-              </Box>
-              <Box style={{ marginRight: 20 }}>
-                <TouchableOpacity onPress={() => onPress(product.productId, 0)}>
-                  <AntDesign name="delete" size={17} color="red" />
-                </TouchableOpacity>
-              </Box>
-            </Box>
-            <Box margin="s">
-              <Box>
-                <Text variant="priceCart">${product.price * product.quantity}</Text>
-              </Box>
-              <Box>
-                <Text
-                  opacity={0.5}
+          flex: 1,
+          opacity: 0.5,
+          backgroundColor: 'red',
+          margin: 10,
+          justifyContent: 'space-around',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          borderTopLeftRadius: 20,
+          borderBottomLeftRadius: 20,
+        }}>
+        {!loading ? (
+          <AntDesign style={{ margin: 20 }} name="delete" size={17} color="white" />
+        ) : (
+          <ActivityIndicator style={{ margin: 20 }} animating color={Colors.white} />
+        )}
+      </Animatable.View>
+    </TouchableOpacity>,
+  ];
+
+  return (
+    <Swipeable
+      rightActionActivationDistance={200}
+      leftContent={leftContent}
+      rightButtons={rightButtons}>
+      <Animatable.View style={{ flex: 1 }}>
+        <Box
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: 'silver',
+            opacity: 0.1,
+            margin: 5,
+            borderRadius: 20,
+          }}
+        />
+        <Animated.View>
+          <Box flexDirection="row" style={{ height: 'auto', width, margin: 10 }}>
+            <Box style={{ height: 100, width: 100 }}>
+              <Animatable.View style={styles.underlay} animation="fadeIn" duration={1000}>
+                <Image
+                  source={{ uri: HOST + product.pictureItem }}
                   style={{
-                    // marginLeft: 20,
-                    textDecorationLine: 'line-through',
+                    ...StyleSheet.absoluteFillObject,
+                    width: undefined,
+                    height: undefined,
+                    borderRadius: 24,
+                  }}
+                />
+              </Animatable.View>
+            </Box>
+            <Box flex={1} style={{ marginLeft: 10 }}>
+              <Box flexDirection="row" justifyContent="space-between">
+                <Box>
+                  <Text variant="nameCart">{product.name}</Text>
+                </Box>
+              </Box>
+              <Box margin="s" flexDirection="row">
+                <Box>
+                  <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                    $ {product.price * product.quantity}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text
+                    opacity={0.5}
+                    style={{
+                      textDecorationLine: 'line-through',
+                    }}>
+                    {(product.price * (130 / 100)).toFixed(2)}
+                  </Text>
+                </Box>
+              </Box>
+              <Box flexDirection="row">
+                <Box
+                  style={{
+                    margin: 5,
+                    width: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}>
-                  {(product.price * (130 / 100)).toFixed(2)}
-                </Text>
+                  <TouchableOpacity
+                    style={{ width: 24 }}
+                    onPress={async () => {
+                      setLoadingMinus(true);
+                      await onPress(product.productId, product.quantity - 1);
+                      setLoadingMinus(false);
+                    }}>
+                    {!loadingMinus ? (
+                      <AntDesign name="minuscircle" size={20} color="#7d9696" />
+                    ) : (
+                      <ActivityIndicator animating color={Colors.red800} />
+                    )}
+                  </TouchableOpacity>
+                </Box>
+                <Box
+                  style={{
+                    margin: 5,
+                    width: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{ fontSize: 20 }}>{product.quantity}</Text>
+                </Box>
+                <Box
+                  style={{
+                    margin: 5,
+                    width: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      setLoadingPlush(true);
+                      await onPress(product.productId, product.quantity + 1);
+                      setLoadingPlush(false);
+                    }}>
+                    {!loadingPlush ? (
+                      <AntDesign name="pluscircle" size={20} color="#7d9696" />
+                    ) : (
+                      <ActivityIndicator animating color={Colors.red800} />
+                    )}
+                  </TouchableOpacity>
+                </Box>
               </Box>
             </Box>
-            <Box flexDirection="row">
-              <Box
-                style={{
-                  margin: 5,
-                  width: 30,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  style={{ width: 24 }}
-                  onPress={() => onPress(product.productId, product.quantity - 1)}>
-                  <AntDesign name="minuscircle" size={24} color="black" />
-                </TouchableOpacity>
-              </Box>
-              <Box
-                style={{
-                  margin: 5,
-                  width: 30,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{ fontSize: 20 }}>{product.quantity}</Text>
-              </Box>
-              <Box
-                style={{
-                  margin: 5,
-                  width: 30,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity onPress={() => onPress(product.productId, product.quantity + 1)}>
-                  <AntDesign name="pluscircle" size={24} color="black" />
-                </TouchableOpacity>
-              </Box>
+            <Box margin="s" justifyContent="center">
+              <Entypo name="chevron-small-right" style={{ margin: 5 }} size={24} color="black" />
             </Box>
           </Box>
-        </Box>
-      </Animated.View>
-    </Animatable.View>
+        </Animated.View>
+      </Animatable.View>
+    </Swipeable>
   );
 };
 export default CardProductCart;

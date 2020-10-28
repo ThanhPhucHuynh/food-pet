@@ -14,7 +14,7 @@ import { AlertHelper, Header } from '../components';
 import { Box, height, width, Text } from '../constants';
 import { HOST, AddToCartService } from '../constants/service';
 import { AuthenticationRoutes, HomeRoutes, StackNavigationProps } from '../navigation';
-import { ApplicationState, checkIsLogin } from '../redux';
+import { ApplicationState, checkCart, checkIsLogin } from '../redux';
 interface DetailProps {
   _id: string;
   product: {
@@ -95,6 +95,7 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
   const AddToCart = async () => {
     setIsLoading(true);
     const data = await AddToCartService(userID, productID, numberChoose, name, price, pics[0]);
+    await dispatch(checkCart());
     setIsLoading(false);
   };
   return (

@@ -2,23 +2,30 @@ import { Fontisto } from '@expo/vector-icons';
 import { backgroundColor } from '@shopify/restyle';
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Picker } from 'react-native';
+import { View, StyleSheet, Picker, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button, Divider, IconButton, List, TextInput } from 'react-native-paper';
 import { Icon } from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
 import RNPickerSelect from 'react-native-picker-select';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Slider from 'react-native-slider';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { CardProductCart, CheckButton, Header } from '../components';
-import { Box, height, Text, width } from '../constants';
+import { CardProductCart, CheckButton, Header, Button as ButtonComponent } from '../components';
+import { BackgroundPicture, Box, height, Text, width } from '../constants';
 import { AddToCartService, CartUserService } from '../constants/service';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApplicationState, checkCart, checkIsLogin } from '../redux';
+import {
+  AddToCartServiceRedux,
+  ApplicationState,
+  buyCart,
+  checkCart,
+  checkIsLogin,
+} from '../redux';
 interface CartItemProps {
   productId: string;
   quantity: number;
@@ -44,11 +51,25 @@ const styles = StyleSheet.create({
   },
   opacity: { ...StyleSheet.absoluteFillObject, opacity: 0.2, backgroundColor: 'black' },
   opacityNone: { ...StyleSheet.absoluteFillObject },
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    backgroundColor: '#0c0d34',
+  },
+  picture: {
+    ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    borderTopLeftRadius: 40,
+    borderBottomRightRadius: 40,
+  },
 });
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { number } = useSelector((state: ApplicationState) => state.cartReducer);
+  const { number, products, priceTotal } = useSelector(
+    (state: ApplicationState) => state.cartReducer
+  );
   const { user, isLogin } = useSelector((state: ApplicationState) => state.userReducer);
 
   const [opacity, setOpacity] = useState<boolean>(false);
@@ -56,7 +77,7 @@ const Cart = () => {
   const [numberCart, setNumberCart] = useState(0);
 
   const [cart, setCart] = useState<any>(null);
-  const [products, setProducts] = useState<CartItemProps[]>([]);
+  // const [products, setProducts] = useState<CartItemProps[]>([]);
   const [userID, setUserID] = useState<string>('');
   const [change, setChange] = useState<boolean>(false);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -69,7 +90,6 @@ const Cart = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [street, setStreet] = useState('');
-
   const [city, setcity] = useState('');
   const [citySS, setCitySS] = useState([]);
   const [district, setdistrict] = useState('');
@@ -88,25 +108,24 @@ const Cart = () => {
   const [more, setMore] = useState<string>('');
   const [fullAddress, setFullAddress] = useState('');
   const [valueSlider, setValueSlider] = useState(0);
+
+  const [shipCost, setShipCost] = useState<number>(20);
+
   useEffect(() => {
+    console.log('asd', priceTotal);
+
     (async () => {
-      dispatch(checkCart());
+      await dispatch(checkCart());
       sheetRef.current.snapTo(2);
-      const data = await CartUserService();
-      setCart(data);
-      setUserID(data.userId);
-      setProducts(data.products);
-      setTotalPrice(
-        data.products.reduce((total, product) => {
-          // console.log(total);
-          return total + product.quantity * product.price;
-        }, 0)
-      );
+      setOpacity(false);
+      // const data = await CartUserService();
+      // setCart(data);
+      setUserID(user._id);
+      // setProducts(data.products);
+      updatePrice();
       Axios.get(
         'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/json/all.json?fbclid=IwAR1w-im9SAHPHEpLXTZMAv1FLKIQTutU1IbhMA3NJF3MV0HP3CJoBNxTH08'
       ).then((res) => {
-        console.log(res.data);
-
         res.data.map((value) => {
           citys.push(value.name);
         });
@@ -115,21 +134,34 @@ const Cart = () => {
         setLocal(res.data);
       });
     })();
-  }, [change, number]);
+  }, [change, number, totalPrice]);
   const handIncreased = async (productId: string, quantity: number) => {
     const itemIndex = products.findIndex((p) => p.productId === productId);
 
-    await AddToCartService(
-      userID,
-      productId,
-      quantity,
-      products[itemIndex].name,
-      products[itemIndex].price,
-      products[itemIndex].pictureItem
+    await dispatch(
+      AddToCartServiceRedux(
+        userID,
+        productId,
+        quantity,
+        products[itemIndex].name,
+        products[itemIndex].price,
+        products[itemIndex].pictureItem
+      )
     );
-    setChange(!change);
+    updatePrice();
   };
-
+  const updatePrice = () => {
+    var total = products.reduce((total, product) => {
+      return total + product.quantity * product.price;
+    }, 0);
+    if (total > 1500) {
+      setTotalPrice(total);
+      setShipCost(0);
+    } else {
+      setTotalPrice(total + (total === 0 ? 0 : 20));
+      setShipCost(20);
+    }
+  };
   const handleChangeCity = (value) => {
     setdistrict('');
     setward('');
@@ -149,8 +181,6 @@ const Cart = () => {
 
   const handleChangeDistrict = (value) => {
     setward('');
-    console.log(value);
-
     setdistrict(value);
     setFullAddress(value + ', ' + city);
     local.map((valuex) => {
@@ -176,19 +206,23 @@ const Cart = () => {
   };
 
   const renderContent = () => (
+    // <ScrollView style={{ height }}>
     <View
       style={{
         backgroundColor: 'white',
         padding: 16,
         height: height * 0.9,
       }}>
+      {/* <SafeAreaView> */}
       <Text>Swipe down to close</Text>
-      <Text style={{ fontSize: 12 }}>Total: {totalPrice} + 20(Ship cost) </Text>
+      <Text style={{ fontSize: 12 }}>
+        Total: {priceTotal} + {shipCost}(Ship cost){' '}
+      </Text>
       <View style={{ backgroundColor: 'white', borderBottomWidth: 1 }}>
         <Box margin="l" flexDirection="row" justifyContent="space-between">
           <TouchableOpacity onPress={() => console.log('aaa')}>
             <Box style={{ justifyContent: 'center' }}>
-              <Text variant="titlePrice">{totalPrice + 20}</Text>
+              <Text variant="titlePrice">{priceTotal + shipCost}</Text>
             </Box>
           </TouchableOpacity>
           <Box>
@@ -203,28 +237,14 @@ const Cart = () => {
           </Box>
         </Box>
       </View>
-      <Slider
-        minimumValue={0}
-        maximumValue={5000}
-        style={{ height: 19 }}
-        thumbStyle={{
-          borderColor: 'white',
-          borderWidth: 3,
-          backgroundColor: 'cyan',
-        }}
-        trackStyle={{ height: 6, borderRadius: 6 }}
-        minimumTrackTintColor="cyan"
-        maximumTrackTintColor="rgba(157, 163, 180, 0.10)"
-        value={valueSlider}
-        onValueChange={(value) => setValueSlider(value)}
-      />
+
       <View>
         <ScrollView>
           <Box
             flexDirection="row"
             style={{ justifyContent: 'space-between', alignItems: 'center', margin: 10 }}>
             <Box>
-              <Text>Name: {user.name}</Text>
+              <Text>Name: {user ? user.name : 'Not Login'}</Text>
             </Box>
             <Box style={{ width: (2 * width) / 3 }}>
               <TextInput
@@ -292,6 +312,27 @@ const Cart = () => {
               />
             </Box>
           </Box>
+          <Box padding="l" alignItems="center" justifyContent="space-evenly">
+            <Button
+              mode="contained"
+              color="red"
+              style={{
+                borderRadius: 75,
+              }}
+              contentStyle={{
+                width: 200,
+                height: 50,
+                borderRadius: 75,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              disabled={phone === '' || district === null || city === null || ward === null}
+              onPress={async () => {
+                await dispatch(buyCart(userID, fullAddress, phone, more, priceTotal + shipCost));
+              }}>
+              <Text>Buy</Text>
+            </Button>
+          </Box>
           {/* <Box
             flexDirection="row"
             style={{ justifyContent: 'space-around', alignItems: 'center', margin: 10 }}>
@@ -299,7 +340,7 @@ const Cart = () => {
               <Text>fullAddress: {fullAddress}</Text>
             </Box>
           </Box> */}
-          <Box
+          {/* <Box
             flexDirection="row"
             style={{ justifyContent: 'space-between', alignItems: 'center', margin: 10 }}>
             <Box>
@@ -314,65 +355,95 @@ const Cart = () => {
                 onChangeText={(text) => setMore(text)}
               />
             </Box>
-          </Box>
+          </Box> */}
         </ScrollView>
       </View>
     </View>
   );
   return (
-    <Box flex={1} backgroundColor="white">
-      <Box flex={1} style={opacity ? styles.opacity : styles.opacityNone} />
-      <Header label="Cart" />
+    <KeyboardAvoidingView behavior="height" style={{ flex: 1 }} enabled>
+      <Box flex={1} backgroundColor="white">
+        <Header label="Cart" />
+        <Box marginTop="m">
+          <Box style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+            <Slider
+              minimumValue={0}
+              disabled
+              maximumValue={1500}
+              style={{ height: 19 }}
+              thumbStyle={{
+                borderColor: 'white',
+                borderWidth: 3,
 
-      <ScrollView>
-        <View>
-          {cart !== null ? (
-            cart.products.map((product, i) => (
-              <CardProductCart onPress={handIncreased} {...{ product }} key={i} />
-            ))
-          ) : (
-            <Text>o</Text>
-          )}
-        </View>
-      </ScrollView>
-      <View
-        style={{
-          backgroundColor: 'white',
-          borderTopWidth: 1,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}>
-        <Box margin="l" flexDirection="row" justifyContent="space-between">
-          <TouchableOpacity onPress={() => console.log('aaa')}>
-            <Box style={{ justifyContent: 'center', flexDirection: 'row' }}>
-              <Text>Total: </Text>
-              <Text variant="titlePrice">{totalPrice}</Text>
+                backgroundColor: 'cyan',
+              }}
+              trackStyle={{ height: 6, borderRadius: 6 }}
+              minimumTrackTintColor="cyan"
+              maximumTrackTintColor="rgba(157, 163, 180, 0.10)"
+              value={priceTotal >= 1500 ? 1500 : priceTotal}
+              onValueChange={(value) => setValueSlider(value)}
+            />
+            <Box justifyContent="center" alignItems="center" margin="s">
+              <Text>
+                {1500 - priceTotal > 0
+                  ? 'Add $ ' + (1500 - priceTotal) + ' to free ship code'
+                  : 'FreeShip'}
+              </Text>
             </Box>
-          </TouchableOpacity>
-
-          <Box>
-            <Button
-              icon="shopping"
-              mode="contained"
-              onPress={() => {
-                sheetRef.current.snapTo(0);
-              }}>
-              Check out
-            </Button>
           </Box>
         </Box>
-      </View>
+        <ScrollView style={{ flex: 1.5 }}>
+          <View>
+            {products ? (
+              products.map((product, i) => (
+                <CardProductCart onPress={handIncreased} {...{ product }} key={i} />
+              ))
+            ) : (
+              <Text>o</Text>
+            )}
+          </View>
+        </ScrollView>
+        <View
+          style={{
+            backgroundColor: '#0c0d34',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}>
+          <Box margin="l" flexDirection="row" justifyContent="space-between">
+            <TouchableOpacity onPress={() => console.log('aaa')}>
+              <Box style={{ justifyContent: 'center', flexDirection: 'row' }}>
+                <Text style={{ color: 'white' }}>Total: </Text>
+                <Text variant="titlePrice">{priceTotal}</Text>
+              </Box>
+            </TouchableOpacity>
 
-      <BottomSheet
-        ref={sheetRef}
-        enabledContentTapInteraction={false}
-        snapPoints={[height * 0.9, 300, 0]}
-        borderRadius={10}
-        renderContent={renderContent}
-        onOpenStart={() => setOpacity(true)}
-        onCloseEnd={() => setOpacity(!true)}
-      />
-    </Box>
+            <Box>
+              <Button
+                color="white"
+                icon="shopping"
+                mode="contained"
+                onPress={() => {
+                  sheetRef.current.snapTo(0);
+                }}>
+                Check out
+              </Button>
+            </Box>
+          </Box>
+        </View>
+        <BottomSheet
+          ref={sheetRef}
+          enabledContentTapInteraction={false}
+          snapPoints={[height * 0.9, 300, 0]}
+          borderRadius={10}
+          renderContent={renderContent}
+          onOpenStart={() => setOpacity(true)}
+          onCloseEnd={() => setOpacity(!true)}
+        />
+        {/* <Box flex={1} style={opacity ? styles.opacity : styles.opacityNone} /> */}
+        {opacity ? <Box flex={1} style={styles.opacity} /> : <></>}
+      </Box>
+      {/* </ScrollView> */}
+    </KeyboardAvoidingView>
   );
 };
 export default Cart;

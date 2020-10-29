@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-export const HOST: string = 'http://192.168.3.153:3000/';
+export const HOST: string = 'http://10.233.3.81:3000/';
 
 interface LoginServiceProps {
   account: string;
@@ -81,7 +81,7 @@ export const AddToCartService = async (
   price: number,
   pictureItem: string
 ) => {
-  console.log(pictureItem);
+  // console.log(pictureItem);
 
   const data = await axios
     .post(HOST + 'carts/add', {
@@ -112,8 +112,6 @@ export const CartUserService: any = async () => {
       },
     })
     .then(async (res) => {
-      console.log(res.data);
-
       return res.data;
     })
     .catch(function (error) {

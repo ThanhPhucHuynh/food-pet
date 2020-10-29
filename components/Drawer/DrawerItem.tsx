@@ -12,7 +12,7 @@ import { Box, Text } from '../../constants';
 import { LogoutService } from '../../constants/service';
 import { height, Theme, width } from '../../constants/theme';
 import { AuthenticationRoutes, HomeRoutes } from '../../navigation';
-import { checkIsLogin } from '../../redux';
+import { checkCart, checkIsLogin } from '../../redux';
 
 interface DrawerItemProps {
   icon: any;
@@ -43,6 +43,7 @@ const DrawerItem = ({ icon, color, screen, label, ComponentScreen }: DrawerItemP
         if (screen === 'Logout') {
           const data = await LogoutService();
           dispatch(checkIsLogin());
+          dispatch(checkCart());
           navigate('HomeDraw');
         } else {
           setLoading(false);

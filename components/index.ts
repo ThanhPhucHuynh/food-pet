@@ -12,3 +12,4 @@ export { default as SearchBar } from './Product/SearchBar';
 export { AlertHelper } from './Alert';
 export { default as CardProductCart } from './Cart/CardProductCart';
 export { default as CheckButton } from './Cart/CheckButton';
+export { default as CollapsibleComponent } from './Order/Collapsible';

@@ -4,7 +4,17 @@ import { enableScreens } from 'react-native-screens';
 import { FluidNavigator } from 'react-navigation-fluid-transitions';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
-import { Cart, Detail, Home, Login, Onboarding, Product, Register, Welcome } from '../screens';
+import {
+  Cart,
+  Detail,
+  Home,
+  Login,
+  Onboarding,
+  Product,
+  Register,
+  Welcome,
+  Order,
+} from '../screens';
 import { AuthenticationRoutes, AuthenticationRoutesProduct } from './Navigation';
 export const AuthenticationStack = createStackNavigator<AuthenticationRoutes>();
 export const AuthenticationStackProduct1 = createStackNavigator<AuthenticationRoutesProduct>();
@@ -12,6 +22,7 @@ enableScreens();
 export const AuthenticationStackProduct = createSharedElementStackNavigator();
 export const AuthenticationStackHome = createSharedElementStackNavigator();
 export const AuthenticationStackCart = createSharedElementStackNavigator();
+export const AuthenticationStackOrder = createSharedElementStackNavigator();
 
 export const AuthenticationNavigator = () => {
   return (
@@ -65,5 +76,12 @@ export const AuthenticationNavigatorCart = () => {
     <AuthenticationStackCart.Navigator headerMode="none" initialRouteName="Cart">
       <AuthenticationStackCart.Screen name="Cart" component={Cart} />
     </AuthenticationStackCart.Navigator>
+  );
+};
+export const AuthenticationNavigatorOrder = () => {
+  return (
+    <AuthenticationStackOrder.Navigator headerMode="none" initialRouteName="Cart">
+      <AuthenticationStackOrder.Screen name="Order" component={Order} />
+    </AuthenticationStackOrder.Navigator>
   );
 };

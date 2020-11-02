@@ -43,7 +43,7 @@ const DrawnItemList: DrawerItemProps[] = [
   {
     icon: 'dns',
     color: 'color4',
-    screen: 'Product',
+    screen: 'OrderDraw',
     label: 'Order',
   },
   {

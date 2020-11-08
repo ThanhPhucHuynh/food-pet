@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { BackgroundHome, Button, Header, CardHome } from '../components';
 import { Box } from '../constants';
-import { getAllProduct } from '../constants/service';
+import { getAllProduct, getTopProduct } from '../constants/service';
 import { StackNavigationProps } from '../navigation';
 import { AuthenticationRoutes } from '../navigation/Navigation';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,7 +33,7 @@ const Home = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Home'>
       dispatch(checkIsLogin());
 
       // const backHandler = BackHandler.addEventListener('hardwareBackPress', () => !!user);
-      setProducts(await getAllProduct());
+      setProducts(await getTopProduct());
       console.log('useEffect Home');
       // return () => backHandler.remove();
     })();
@@ -46,7 +46,7 @@ const Home = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Home'>
       <Box flex={1}>
         <BackgroundHome />
         {products.length !== 0 ? (
-          products.map(
+          products.reverse().map(
             (product, index) =>
               products.length - index - 1 >= currentIndex && (
                 <CardHome

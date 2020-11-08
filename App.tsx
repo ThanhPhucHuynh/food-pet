@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider } from '@shopify/restyle';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 import { Provider as PaperProvider } from 'react-native-paper';
 // eslint-disable-next-line import/order
@@ -18,7 +18,6 @@ import { HomeRoutes, AuthenticationNavigator, HomeNavigator } from './navigation
 import { store } from './redux';
 import { WelcomeAssets, LoginAsset, RegisterAsset, DrawerAssets } from './screens';
 //redux
-//import font,theme
 const assets = [
   ...OnboardingAssets,
   ...WelcomeAssets,
@@ -30,6 +29,8 @@ const assets = [
 const AppStack = createStackNavigator<HomeRoutes>();
 
 export default function App() {
+  useEffect(() => {}, []);
+
   return (
     <Provider store={store}>
       <StatusBar style="auto" />
@@ -60,6 +61,25 @@ export default function App() {
       </PaperProvider>
     </Provider>
   );
+}
+async function sendPushNotification(expoPushToken) {
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: 'Original Title',
+    body: 'And here is the body!',
+    data: { data: 'goes here' },
+  };
+
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

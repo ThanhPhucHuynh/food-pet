@@ -113,7 +113,7 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
           <Box borderTopLeftRadius="xl" margin="xl" style={{ height: 'auto' }}>
             <SharedElement id={`item.${route.params.productId}.photo`}>
               <Box style={{ height: height * 0.4 }}>
-                <Animated.View style={styles.underlay}>
+                <View style={styles.underlay}>
                   {/* <SharedElement style={styles.underlay} onNode={(node) => (endNode = node)}> */}
                   <Image
                     source={{ uri: HOST + pics[index] }}
@@ -124,11 +124,11 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
                       borderRadius: 24,
                     }}
                   />
-                </Animated.View>
+                </View>
               </Box>
             </SharedElement>
 
-            <Animated.View
+            <View
               style={{
                 margin: 2,
                 height: 100,
@@ -168,7 +168,7 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
                   })}
                 </ScrollView>
               </Box>
-            </Animated.View>
+            </View>
           </Box>
           <Box justifyContent="center" alignItems="center">
             <Text variant="titleHeader" style={{ fontSize: 30 }}>

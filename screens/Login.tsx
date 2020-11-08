@@ -2,10 +2,13 @@
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import Constants from 'expo-constants';
 import { isLoading } from 'expo-font';
-import React from 'react';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import React, { useRef, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Alert, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { Alert, AsyncStorage, KeyboardAvoidingView, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 
@@ -22,7 +25,13 @@ interface LoginProps {
     DrawerNavigationProp<HomeRoutes, 'HomeDraw'>
   >;
 }
-
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 export const LoginAsset = AssetContainer;
 const Login = ({ navigation }: AuthNavigationProps<'Login'>) => {
   const [textEmail, setTextEmail] = React.useState('');
@@ -35,7 +44,15 @@ const Login = ({ navigation }: AuthNavigationProps<'Login'>) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [token, setToken] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
   React.useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => {
+      setExpoPushToken(token);
+    });
+
     (async () => {
       const token_vale = await AsyncStorage.getItem('token');
       // console.log();
@@ -134,7 +151,7 @@ const Login = ({ navigation }: AuthNavigationProps<'Login'>) => {
             <Button
               onPress={async () => {
                 setLoading(true);
-                const Login = await LoginService(textEmail, textPassword);
+                const Login = await LoginService(textEmail, textPassword, expoPushToken);
                 setIsWrong(!Login);
                 setLoading(false);
                 if (Login) {
@@ -151,4 +168,34 @@ const Login = ({ navigation }: AuthNavigationProps<'Login'>) => {
   );
 };
 
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
 export default Login;

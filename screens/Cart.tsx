@@ -83,6 +83,7 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [local, setLocal] = useState<any>();
   const sheetRef = React.useRef(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const citys = [];
   const districts = [];
@@ -326,9 +327,14 @@ const Cart = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              loading={isLoading}
               disabled={phone === '' || district === null || city === null || ward === null}
               onPress={async () => {
-                await dispatch(buyCart(userID, fullAddress, phone, more, priceTotal + shipCost));
+                setIsLoading(true);
+                await dispatch(
+                  buyCart(userID, user.email, fullAddress, phone, more, priceTotal + shipCost)
+                );
+                setIsLoading(true);
               }}>
               <Text>Buy</Text>
             </Button>

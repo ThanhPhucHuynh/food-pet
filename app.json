@@ -23,7 +23,8 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.thanhphuc2111.foodpet"
+      "package": "com.thanhphuc2111.foodpet",
+      "useNextNotificationsApi": true
     }
   }
 }

@@ -44,7 +44,7 @@ const CardOrder = ({ address, phone, more, products, price, status, createdAt }:
       <Box>
         {products ? (
           products.map((product, i) => {
-            console.log(product);
+            // console.log(product);
 
             return (
               <Animatable.View>

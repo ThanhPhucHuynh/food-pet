@@ -46,6 +46,7 @@ const Product = () => {
   const width = (tempWidth - theme.spacing.m * 2 - theme.spacing.s) / 2;
   return (
     <Box flex={1} backgroundColor="white">
+      {/* <BackgroundHome /> */}
       <Header label="Products" />
       <Box margin="m">
         <SearchBar

@@ -79,6 +79,7 @@ export const checkCart = () => {
 
 export const buyCart = (
   userId: string,
+  email: string,
   address: string,
   phone: string,
   more: string,
@@ -92,6 +93,7 @@ export const buyCart = (
         HOST + 'orders/add',
         {
           userId,
+          email,
           address,
           phone,
           more,

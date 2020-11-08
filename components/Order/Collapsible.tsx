@@ -16,6 +16,7 @@ import CardOrder from './CardOrder';
 const BACON_IPSUM =
   'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
 const CONTENTORDER = undefined;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CONTENT = [
   {
     title: 'First',
@@ -70,7 +71,6 @@ const CollapsibleComponent = () => {
     (async () => {
       await dispatch(checkOrder());
       setContent([...order]);
-      //   if (order) {
       order.orders.map((order) => {
         CONTENTORDER.push({
           title: order._id,
@@ -78,8 +78,7 @@ const CollapsibleComponent = () => {
         });
       });
       //   }
-      console.log('asd', CONTENTORDER);
-
+      // console.log('asd', CONTENTORDER);
       console.log('useEffect Order');
     })();
   }, []);
@@ -102,7 +101,16 @@ const CollapsibleComponent = () => {
           //   { backgroundColor: colorStatus[section.status] },
         ]}
         transition="backgroundColor">
-        <Box>
+        <Box
+          style={{
+            flex: 1,
+            margin: 0,
+            padding: 0,
+            // height: 500,
+
+            // backgroundColor: 'black',
+            // ...StyleSheet.absoluteFillObject,
+          }}>
           <Text
             style={{
               color: section.status ? colorStatus[section.status - 1].color : 'silver',
@@ -144,7 +152,7 @@ const CollapsibleComponent = () => {
               <Box>
                 <Text style={styles.text}>Address:</Text>
               </Box>
-              <Box>
+              <Box style={{ width: 200 }}>
                 <Text style={styles.text}>{section.address}</Text>
               </Box>
             </Box>
@@ -246,7 +254,7 @@ const styles = StyleSheet.create({
   },
   header: {
     // backgroundColor: 'black',
-    borderRadius: 15,
+    borderRadius: 4,
     padding: 10,
     margin: 10,
     marginHorizontal: 20,
@@ -256,7 +264,7 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: 4,
 
     elevation: 5,
     // borderWidth: 1,

@@ -23,7 +23,6 @@ const Product = () => {
   return (
     <Box flex={1} backgroundColor="white">
       <Header label="Order" />
-      <Text>haha</Text>
 
       <CollapsibleComponent />
     </Box>

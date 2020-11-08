@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "137694979390",
+    "firebase_url": "https://chatapp-773c7.firebaseio.com",
+    "project_id": "chatapp-773c7",
+    "storage_bucket": "chatapp-773c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137694979390:android:0113c44b65f953d8be386f",
+        "android_client_info": {
+          "package_name": "com.thanhphuc2111.foodpet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137694979390-od141bor904b4sc1npo35l9h52p452jr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDepaKys7JlXNQIcwEfwK5Qs3ljnNE0-JI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137694979390-od141bor904b4sc1npo35l9h52p452jr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

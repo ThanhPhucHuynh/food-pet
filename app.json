@@ -24,6 +24,7 @@
     },
     "android": {
       "package": "com.thanhphuc2111.foodpet",
+      "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true
     }
   }

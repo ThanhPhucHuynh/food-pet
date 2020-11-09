@@ -68,7 +68,6 @@ const CardProduct = ({
   });
   const transition = () => (
     <Transition.Together>
-      {' '}
       <Transition.In type="scale" durationMs={1000} interpolation="easeIn" />
     </Transition.Together>
   );

@@ -25,6 +25,7 @@ import {
   buyCart,
   checkCart,
   checkIsLogin,
+  checkOrder,
 } from '../redux';
 interface CartItemProps {
   productId: string;
@@ -71,11 +72,9 @@ const Cart = () => {
     (state: ApplicationState) => state.cartReducer
   );
   const { user, isLogin } = useSelector((state: ApplicationState) => state.userReducer);
-
   const [opacity, setOpacity] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [numberCart, setNumberCart] = useState(0);
-
   const [cart, setCart] = useState<any>(null);
   // const [products, setProducts] = useState<CartItemProps[]>([]);
   const [userID, setUserID] = useState<string>('');
@@ -207,14 +206,12 @@ const Cart = () => {
   };
 
   const renderContent = () => (
-    // <ScrollView style={{ height }}>
     <View
       style={{
         backgroundColor: 'white',
         padding: 16,
         height: height * 0.9,
       }}>
-      {/* <SafeAreaView> */}
       <Text>Swipe down to close</Text>
       <Text style={{ fontSize: 12 }}>
         Total: {priceTotal} + {shipCost}(Ship cost){' '}
@@ -334,34 +331,12 @@ const Cart = () => {
                 await dispatch(
                   buyCart(userID, user.email, fullAddress, phone, more, priceTotal + shipCost)
                 );
+                await dispatch(checkOrder());
                 setIsLoading(true);
               }}>
               <Text>Buy</Text>
             </Button>
           </Box>
-          {/* <Box
-            flexDirection="row"
-            style={{ justifyContent: 'space-around', alignItems: 'center', margin: 10 }}>
-            <Box>
-              <Text>fullAddress: {fullAddress}</Text>
-            </Box>
-          </Box> */}
-          {/* <Box
-            flexDirection="row"
-            style={{ justifyContent: 'space-between', alignItems: 'center', margin: 10 }}>
-            <Box>
-              <Fontisto name="discover" size={24} color="black" />
-            </Box>
-            <Box style={{ width: (2 * width) / 3 }}>
-              <TextInput
-                label="discount"
-                mode="flat"
-                value={more}
-                style={{ backgroundColor: 'white' }}
-                onChangeText={(text) => setMore(text)}
-              />
-            </Box>
-          </Box> */}
         </ScrollView>
       </View>
     </View>
@@ -445,10 +420,8 @@ const Cart = () => {
           onOpenStart={() => setOpacity(true)}
           onCloseEnd={() => setOpacity(!true)}
         />
-        {/* <Box flex={1} style={opacity ? styles.opacity : styles.opacityNone} /> */}
         {opacity ? <Box flex={1} style={styles.opacity} /> : <></>}
       </Box>
-      {/* </ScrollView> */}
     </KeyboardAvoidingView>
   );
 };

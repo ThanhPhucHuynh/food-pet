@@ -14,6 +14,7 @@ import {
   Register,
   Welcome,
   Order,
+  Forgot,
 } from '../screens';
 import { AuthenticationRoutes, AuthenticationRoutesProduct } from './Navigation';
 export const AuthenticationStack = createStackNavigator<AuthenticationRoutes>();
@@ -31,10 +32,7 @@ export const AuthenticationNavigator = () => {
       <AuthenticationStack.Screen name="Welcome" component={Welcome} />
       <AuthenticationStack.Screen name="Login" component={Login} />
       <AuthenticationStack.Screen name="Register" component={Register} />
-      {/* <AuthenticationStack.Screen name="Detail" component={Detail} /> */}
-
-      {/* <AuthenticationStack.Screen name="Product" component={Product} /> */}
-      {/* <AuthenticationStack.Screen name="Home" component={Home} /> */}
+      <AuthenticationStack.Screen name="Forgot" component={Forgot} />
     </AuthenticationStack.Navigator>
   );
 };

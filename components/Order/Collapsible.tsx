@@ -182,41 +182,12 @@ const CollapsibleComponent = () => {
     <View style={styles.container}>
       <BackgroundHome />
       <ScrollView contentContainerStyle={{ paddingTop: 30 }}>
-        <Text style={styles.title}>Order List</Text>
-        {/* 
-        <View style={styles.multipleToggle}>
-          <Text style={styles.multipleToggle__title}>Multiple Select?</Text>
-          <Switch value={multipleSelect} onValueChange={(a) => setMultipleSelect(a)} />
-        </View> */}
-
-        {/* <View style={styles.selectors}>
-          <Text style={styles.selectTitle}>Select:</Text>
-
-          {SELECTORS.map((selector) => {
-            console.log(selector);
-
-            return (
-              <TouchableOpacity key={selector.title} onPress={() => setSections([selector.value])}>
-                <View style={styles.selector}>
-                  <Text style={activeSections.includes(selector.value) && styles.activeSelector}>
-                    {selector.title}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View> */}
-
-        {/* <TouchableOpacity onPress={toggleExpanded}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Single Collapsible</Text>
-          </View>
-        </TouchableOpacity> */}
-        {/* <Collapsible collapsed={collapsed} align="center">
-          <View style={styles.content}>
-            <Text>Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs</Text>
-          </View>
-        </Collapsible> */}
+        <TouchableOpacity
+          onPress={async () => {
+            await dispatch(checkOrder());
+          }}>
+          <Text style={styles.title}>Order List</Text>
+        </TouchableOpacity>
         <Accordion
           activeSections={activeSections}
           sections={order ? order.orders : [{}]}

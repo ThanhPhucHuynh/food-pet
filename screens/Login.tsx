@@ -161,6 +161,11 @@ const Login = ({ navigation }: AuthNavigationProps<'Login'>) => {
               variant="primary"
               label="Login into your account"
             />
+            <Button
+              onPress={() => navigation.navigate('Forgot')}
+              variant="transparent"
+              label="Forgot password?"
+            />
           </Box>
         </Container>
       </ScrollView>

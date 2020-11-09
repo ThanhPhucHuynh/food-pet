@@ -46,7 +46,7 @@ const Home = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Home'>
       <Box flex={1}>
         <BackgroundHome />
         {products.length !== 0 ? (
-          products.reverse().map(
+          products.map(
             (product, index) =>
               products.length - index - 1 >= currentIndex && (
                 <CardHome

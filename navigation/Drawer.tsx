@@ -55,7 +55,6 @@ export const HomeNavigator = () => {
       <Drawer.Screen name="HomeDraw" component={AuthenticationNavigatorHome} />
       <Drawer.Screen name="ProductStack" component={AuthenticationNavigatorProduct} />
       <Drawer.Screen name="CartDraw" component={AuthenticationNavigatorCart} />
-      {/* <Drawer.Screen name="Detail" initialParams={{ _id: '' }} component={Detail} /> */}
       <Drawer.Screen name="OrderDraw" component={AuthenticationNavigatorOrder} />
     </Drawer.Navigator>
   );

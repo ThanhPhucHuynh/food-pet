@@ -25,6 +25,7 @@ export type AuthenticationRoutes = {
   Register: undefined;
   HomeDraw: undefined;
   Home: undefined;
+  Forgot: undefined;
 };
 export type AuthenticationRoutesProduct = {
   Detail: undefined;

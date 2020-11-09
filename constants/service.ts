@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-export const HOST: string = 'http://192.168.3.108:3000/';
+export const HOST: string = 'http://10.233.2.162:3000/';
 
 interface LoginServiceProps {
   account: string;
@@ -55,12 +55,15 @@ export const LogoutService = async () => {
     });
   return data;
 };
-export const getAllProduct = async (search?: string, filler?: string[]) => {
+export const getAllProduct = async (limit?: number, search?: string, filler?: string[]) => {
+  console.log(limit);
+
   const data = await axios
     .get(HOST + 'products/all', {
       params: {
         search,
         filler,
+        limit,
       },
     })
     .then(async (res) => {

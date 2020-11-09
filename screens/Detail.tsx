@@ -254,7 +254,7 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
                 labelStyle={{ color: userID === '' ? 'silver' : 'red' }}
                 onPress={async () => {
                   await AddToCart();
-                  AlertHelper.show('success', 'Error', 'Finish add to cart');
+                  AlertHelper.show('success', 'success', 'Finish add to cart');
                 }}>
                 {userID === '' ? 'Login pls' : 'ADD TO CART'}
               </Button>

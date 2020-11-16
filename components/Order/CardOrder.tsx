@@ -4,6 +4,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { Box } from '../../constants';
 import { HOST } from '../../constants/service';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { OrderModel } from '../../redux';
 type OrderState = {
   address: string;
@@ -44,8 +45,6 @@ const CardOrder = ({ address, phone, more, products, price, status, createdAt }:
       <Box>
         {products ? (
           products.map((product, i) => {
-            // console.log(product);
-
             return (
               <Animatable.View>
                 <Box flexDirection="row">
@@ -57,7 +56,6 @@ const CardOrder = ({ address, phone, more, products, price, status, createdAt }:
                       right={0}
                       bottom={0}
                       borderTopLeftRadius="xl"
-                      //   backgroundColor="white"
                       margin="l">
                       <Animatable.View>
                         <Image
@@ -80,7 +78,6 @@ const CardOrder = ({ address, phone, more, products, price, status, createdAt }:
                       right={0}
                       bottom={0}
                       borderTopLeftRadius="xl"
-                      //   backgroundColor="white"
                       margin="l">
                       <Text style={styles.text}>
                         {product.name} <Text> X {product.quantity} </Text>{' '}

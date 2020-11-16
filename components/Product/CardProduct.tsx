@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, Animated, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import { Extrapolate, interpolate, Transition, Transitioning } from 'react-native-reanimated';
-import { mixColor, mix, usePanGestureHandler, withSpring } from 'react-native-redash/lib/module/v1';
+import { Transition } from 'react-native-reanimated';
+import { mix, usePanGestureHandler, withSpring } from 'react-native-redash/lib/module/v1';
 import { SharedElement } from 'react-navigation-shared-element';
 
 import { Box, Text } from '../../constants';
@@ -49,7 +48,7 @@ const CardProduct = ({
 }: CardProductProps) => {
   const [load, setLoad] = useState(true);
   const x = new Animated.Value(0);
-  const { gestureHandler, translation, velocity, state } = usePanGestureHandler();
+  const { translation, velocity, state } = usePanGestureHandler();
   const ref = useRef();
   const translateY = mix(50, 0, -50);
   const translateX = withSpring({
@@ -57,7 +56,6 @@ const CardProduct = ({
     velocity: velocity.x,
     state,
     snapPoints: [-width, 0, width],
-    // onSnap: ([x]) => x !== 0 && onSwipe(),
   });
   useEffect(() => {
     setLoad(!load);
@@ -80,7 +78,6 @@ const CardProduct = ({
       duration={100}
       delay={index + 150}
       style={{
-        // backgroundColor,
         width,
         height: width * aspectRatio,
         borderRadius: 8,
@@ -126,13 +123,8 @@ const CardProduct = ({
               bottom={0}
               borderTopLeftRadius="xl"
               margin="xl">
-              {/* <SharedElement onNode={(node) => (startNode = node)}> */}
               <SharedElement id={`item.${productId}.photo`} style={styles.underlay}>
-                <Animatable.View
-                  style={styles.underlay}
-                  animation="fadeIn"
-                  // ref={(ref) => (startAncestor = nodeFromRef(ref))}
-                  duration={1000}>
+                <Animatable.View style={styles.underlay} animation="fadeIn" duration={1000}>
                   <Image
                     source={{ uri: HOST + product.picture[0] }}
                     style={{
@@ -161,7 +153,7 @@ const CardProduct = ({
               <Text
                 opacity={0.5}
                 textAlign="center"
-                variant="titlePriceProductCard"
+                variant="titlePriceProductCardDiscord"
                 style={{
                   textDecorationLine: 'line-through',
                 }}>

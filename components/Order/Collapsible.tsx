@@ -1,15 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import Constants from 'expo-constants';
-import React, { Component, useEffect, useState } from 'react';
-import { Switch, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
-import { or } from 'react-native-reanimated';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Box } from '../../constants';
-import { ApplicationState, checkOrder, OrderModel } from '../../redux';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ApplicationState, checkOrder } from '../../redux';
 import BackgroundHome from '../Home/Background';
 import CardOrder from './CardOrder';
 
@@ -77,8 +76,6 @@ const CollapsibleComponent = () => {
           content: order,
         });
       });
-      //   }
-      // console.log('asd', CONTENTORDER);
       console.log('useEffect Order');
     })();
   }, []);
@@ -95,21 +92,13 @@ const CollapsibleComponent = () => {
     return (
       <Animatable.View
         duration={400}
-        style={[
-          styles.header,
-          isActive ? styles.active : styles.inactive,
-          //   { backgroundColor: colorStatus[section.status] },
-        ]}
+        style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
         <Box
           style={{
             flex: 1,
             margin: 0,
             padding: 0,
-            // height: 500,
-
-            // backgroundColor: 'black',
-            // ...StyleSheet.absoluteFillObject,
           }}>
           <Text
             style={{
@@ -224,7 +213,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   header: {
-    // backgroundColor: 'black',
     borderRadius: 4,
     padding: 10,
     margin: 10,
@@ -238,7 +226,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
 
     elevation: 5,
-    // borderWidth: 1,
   },
   headerText: {
     textAlign: 'center',
@@ -249,7 +236,6 @@ const styles = StyleSheet.create({
     margin: 30,
     borderRadius: 15,
     padding: 20,
-    // borderWidth: 1,
   },
   active: {
     backgroundColor: '#74BCB8',

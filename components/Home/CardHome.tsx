@@ -51,12 +51,9 @@ const CardHome = ({ position, product, numberSale }: CardProps) => {
     velocity: velocity.x,
     state,
     snapPoints: [-widthCard, 0, widthCard],
-    // onSnap: ([x]) => x !== 0 && onSwipe(),
   });
   const scale = mix(position, 1, 0.9);
-  useEffect(() => {
-    // console.log('ada', product);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <Box style={StyleSheet.absoluteFill} justifyContent="center" alignItems="center">
       <PanGestureHandler {...gestureHandler}>

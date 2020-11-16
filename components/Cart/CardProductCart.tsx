@@ -1,5 +1,5 @@
 import { AntDesign, Entypo } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { ActivityIndicator, Colors } from 'react-native-paper';
@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
   underlay: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
+    padding: 10,
+    margin: 10,
+    borderRadius: 75,
   },
   picture: {
     ...StyleSheet.absoluteFillObject,
@@ -55,7 +58,7 @@ const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [loadingMinus, setLoadingMinus] = React.useState<boolean>(false);
   const [loadingPlush, setLoadingPlush] = React.useState<boolean>(false);
-
+  const swipeableRef = useRef(null);
   useEffect(() => {
     const { productId, quantity, name, price, pictureItem } = product;
     setItem({ productId, quantity, name, price, pictureItem });
@@ -73,7 +76,6 @@ const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => 
         setLoading(false);
       }}>
       <Animatable.View
-        // flex={1}
         animation="fadeIn"
         duration={100}
         style={{
@@ -98,10 +100,13 @@ const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => 
 
   return (
     <Swipeable
+      key={product.productId}
+      ref={swipeableRef}
       rightActionActivationDistance={200}
       leftContent={leftContent}
+      autoClose
       rightButtons={rightButtons}>
-      <Animatable.View style={{ flex: 1 }}>
+      <Animatable.View>
         <Box
           style={{
             ...StyleSheet.absoluteFillObject,
@@ -112,8 +117,8 @@ const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => 
           }}
         />
         <Animated.View>
-          <Box flexDirection="row" style={{ height: 'auto', width, margin: 10 }}>
-            <Box style={{ height: 100, width: 100 }}>
+          <Box flexDirection="row" style={{ width, margin: 10 }}>
+            <Box style={{ height: 100, width: 100, backgroundColor: '#fed80e', borderRadius: 20 }}>
               <Animatable.View style={styles.underlay} animation="fadeIn" duration={1000}>
                 <Image
                   source={{ uri: HOST + product.pictureItem }}
@@ -134,8 +139,8 @@ const CardProductCart = ({ product, onPress, userId }: CardProductCartProps) => 
               </Box>
               <Box margin="s" flexDirection="row">
                 <Box>
-                  <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                    $ {product.price * product.quantity}
+                  <Text style={{ fontSize: 20, lineHeight: 30, color: '#29b0a5' }}>
+                    ${product.price * product.quantity}
                   </Text>
                 </Box>
                 <Box>

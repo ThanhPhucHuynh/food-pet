@@ -23,9 +23,7 @@ interface DrawerItemProps {
 }
 
 const DrawerItem = ({ icon, color, screen, label, ComponentScreen }: DrawerItemProps) => {
-  //   console.log(screen);
   const { navigate, goBack } = useNavigation<DrawerNavigationProp<HomeRoutes, 'HomeDraw'>>();
-  //   const navigation = useNavigation<StackNavigationProp<AuthenticationRoutes, 'Login'>>();
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -51,13 +49,7 @@ const DrawerItem = ({ icon, color, screen, label, ComponentScreen }: DrawerItemP
           navigate(screen);
         }
       }}>
-      <Box
-        flexDirection="row"
-        margin="s"
-        paddingLeft="m"
-        alignItems="center"
-        // style={{ margin: height * 0.018 }}
-      >
+      <Box flexDirection="row" margin="s" paddingLeft="m" alignItems="center">
         <Box
           backgroundColor={color}
           padding="s"

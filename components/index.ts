@@ -13,3 +13,4 @@ export { AlertHelper } from './Alert';
 export { default as CardProductCart } from './Cart/CardProductCart';
 export { default as CheckButton } from './Cart/CheckButton';
 export { default as CollapsibleComponent } from './Order/Collapsible';
+export { default as SwipeableRow } from './Cart/SwipeableRow';

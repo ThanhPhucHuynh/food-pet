@@ -6,7 +6,6 @@ import { Button, Chip, Searchbar } from 'react-native-paper';
 
 import { Box } from '../../constants';
 const types = ['food', 'tool', 'care', 'other'];
-// const typeIndex = [];
 interface SearchBarProps {
   onChangeSearch: (text: string) => void;
   onChangeFiller: (text: string[]) => void;
@@ -42,7 +41,6 @@ const SearchBar = ({ onChangeSearch, onChangeFiller }: SearchBarProps) => {
                 {...{ selected, selectedColor }}
                 style={{ backgroundColor }}
                 onPress={() => {
-                  // console.log(filler.indexOf(type));
                   if (filler.indexOf(type) === -1) {
                     setFiller([...filler].concat(type));
                   } else {
@@ -54,14 +52,6 @@ const SearchBar = ({ onChangeSearch, onChangeFiller }: SearchBarProps) => {
             </Box>
           );
         })}
-        {/* <Box
-          justifyContent="space-between"
-          alignItems="center"
-          style={{ margin: 2, marginTop: 5, marginLeft: 20 }}>
-          <TouchableOpacity onPress={() => onChangeFiller(filler)}>
-            <AntDesign name="filter" size={24} color="black" />
-          </TouchableOpacity>
-        </Box> */}
       </Box>
     </Box>
   );

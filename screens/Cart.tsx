@@ -2,7 +2,15 @@ import { Fontisto } from '@expo/vector-icons';
 import { backgroundColor } from '@shopify/restyle';
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Picker, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Picker,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  FlatList,
+} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button, Divider, IconButton, List, TextInput } from 'react-native-paper';
@@ -15,7 +23,13 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { CardProductCart, CheckButton, Header, Button as ButtonComponent } from '../components';
+import {
+  CardProductCart,
+  CheckButton,
+  Header,
+  Button as ButtonComponent,
+  SwipeableRow,
+} from '../components';
 import { BackgroundPicture, Box, height, Text, width } from '../constants';
 import { AddToCartService, CartUserService } from '../constants/service';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -118,10 +132,7 @@ const Cart = () => {
       await dispatch(checkCart());
       sheetRef.current.snapTo(2);
       setOpacity(false);
-      // const data = await CartUserService();
-      // setCart(data);
       setUserID(user._id);
-      // setProducts(data.products);
       updatePrice();
       Axios.get(
         'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/json/all.json?fbclid=IwAR1w-im9SAHPHEpLXTZMAv1FLKIQTutU1IbhMA3NJF3MV0HP3CJoBNxTH08'
@@ -235,9 +246,8 @@ const Cart = () => {
           </Box>
         </Box>
       </View>
-
-      <View>
-        <ScrollView>
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}>
           <Box
             flexDirection="row"
             style={{ justifyContent: 'space-between', alignItems: 'center', margin: 10 }}>
@@ -376,9 +386,15 @@ const Cart = () => {
         <ScrollView style={{ flex: 1.5 }}>
           <View>
             {products ? (
-              products.map((product, i) => (
-                <CardProductCart onPress={handIncreased} {...{ product }} key={i} />
-              ))
+              // products.map((product, i) => (
+              //   <CardProductCart onPress={handIncreased} {...{ product }} key={i} />
+              // ))
+              <FlatList
+                data={products}
+                renderItem={({ item, index }) => {
+                  return <CardProductCart onPress={handIncreased} product={item} key={index} />;
+                }}
+              />
             ) : (
               <Text>o</Text>
             )}
@@ -394,7 +410,7 @@ const Cart = () => {
             <TouchableOpacity onPress={() => console.log('aaa')}>
               <Box style={{ justifyContent: 'center', flexDirection: 'row' }}>
                 <Text style={{ color: 'white' }}>Total: </Text>
-                <Text variant="titlePrice">{priceTotal}</Text>
+                <Text variant="titlePrice">${priceTotal + shipCost}</Text>
               </Box>
             </TouchableOpacity>
 

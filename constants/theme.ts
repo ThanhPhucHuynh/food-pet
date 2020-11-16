@@ -43,6 +43,7 @@ const theme: BaseTheme = createTheme({
     title: 'rgba(12,13,52,0.7)',
     secondary: palette.secondary,
     red: 'red',
+    color: '#29b0a5',
     greenLight: palette.greenLight,
     blueDark: palette.blueDark,
     color1: '#00b3a6',
@@ -149,7 +150,13 @@ const theme: BaseTheme = createTheme({
       color: 'black',
     },
     titlePriceProductCard: {
-      fontSize: 15,
+      fontSize: 17,
+      lineHeight: 30,
+      fontFamily: 'Anodina-ExtraBold',
+      color: 'color',
+    },
+    titlePriceProductCardDiscord: {
+      fontSize: 14,
       lineHeight: 30,
       fontFamily: 'Anodina-ExtraBold',
       color: 'black',
@@ -176,7 +183,7 @@ const theme: BaseTheme = createTheme({
       fontSize: 30,
       lineHeight: 30,
       // fontFamily: 'Raleway-Regular',
-      color: 'red',
+      color: 'color',
     },
   },
 });

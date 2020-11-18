@@ -45,11 +45,12 @@ const Home = ({ navigation }: StackNavigationProps<AuthenticationRoutes, 'Home'>
       <Header label="Home Pets" />
       <Box flex={1}>
         <BackgroundHome />
-        {products.length !== 0 ? (
+        {products ? (
           products.map(
             (product, index) =>
               products.length - index - 1 >= currentIndex && (
                 <CardHome
+                  {...{ user }}
                   numberSale={products.length - index}
                   key={index}
                   // number = {index}

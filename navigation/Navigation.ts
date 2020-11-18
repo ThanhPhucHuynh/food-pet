@@ -42,7 +42,7 @@ export type HomeRoutes = {
   HomeDraw: undefined;
   Authentication: undefined;
   HomeRoot: undefined;
-  ProductDraw: undefined;
+  ProductStack: undefined;
   DrawerScreen: undefined;
   CartDraw: undefined;
   // Detail: undefined;

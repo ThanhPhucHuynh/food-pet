@@ -1,11 +1,12 @@
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BackHandler, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DropdownAlert from 'react-native-dropdownalert';
 import { Button, Card, Chip } from 'react-native-paper';
-import Animated from 'react-native-reanimated';
+import Animated, { multiply, divide, interpolate, Extrapolate } from 'react-native-reanimated';
+import { useValue, onScrollEvent, interpolateColor } from 'react-native-redash/lib/module/v1';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -33,6 +34,9 @@ const styles = StyleSheet.create({
     //   width: width
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
+  },
+  slider: {
+    height: height * 0.4,
   },
   picture: {
     ...StyleSheet.absoluteFillObject,
@@ -66,16 +70,16 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
   const { user, isLogin } = useSelector((state: ApplicationState) => state.userReducer);
 
   // console.log(route.params.product);
+  const scroll = useRef<Animated.ScrollView>(null);
 
   const Cover = () => (
     <Card>
       <Card.Cover source={{ uri: HOST + product.picture[0] }} />
     </Card>
   );
-
+  const x = useValue(0);
+  const onScroll = onScrollEvent({ x });
   useEffect(() => {
-    // console.log(route.params);
-
     setIndex(0);
     dispatch(checkIsLogin());
     if (route.params) {
@@ -114,7 +118,6 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
             <SharedElement id={`item.${route.params.productId}.photo`}>
               <Box style={{ height: height * 0.4 }}>
                 <View style={styles.underlay}>
-                  {/* <SharedElement style={styles.underlay} onNode={(node) => (endNode = node)}> */}
                   <Image
                     source={{ uri: HOST + pics[index] }}
                     style={{
@@ -126,6 +129,35 @@ const Detail = ({ navigation }: StackNavigationProps<HomeRoutes, 'HomeRoot'>) =>
                   />
                 </View>
               </Box>
+              {/* <ScrollView
+                horizontal
+                snapToInterval={width}
+                decelerationRate="normal"
+                showsHorizontalScrollIndicator={false}
+                bounces={false}
+                scrollEventThrottle={1}>
+                {pics.map((pic, i) => {
+                  return (
+                    <Box
+                      justifyContent="center"
+                      alignItems="center"
+                      key={i}
+                      style={{ margin: 5, height: height * 0.4, width }}>
+                      <View style={styles.underlay}>
+                        <Image
+                          source={{ uri: HOST + pic }}
+                          style={{
+                            ...StyleSheet.absoluteFillObject,
+                            width: undefined,
+                            height: undefined,
+                            borderRadius: 24,
+                          }}
+                        />
+                      </View>
+                    </Box>
+                  );
+                })}
+              </ScrollView> */}
             </SharedElement>
 
             <View

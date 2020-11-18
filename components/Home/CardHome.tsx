@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { mixColor, mix, usePanGestureHandler, withSpring } from 'react-native-redash/lib/module/v1';
@@ -7,6 +8,7 @@ import { mixColor, mix, usePanGestureHandler, withSpring } from 'react-native-re
 // import {useSpring} from 'react-native-redash'
 import { Box, height, Text, width } from '../../constants';
 import { HOST } from '../../constants/service';
+import Button from '../Button';
 
 interface CardProps {
   position: Animated.Adaptable<number>;
@@ -18,14 +20,8 @@ interface CardProps {
     price?: number;
     number?: number;
   };
-  // name: string;
+  user?: any;
   numberSale: number;
-  // description: number;
-  // picture: string[];
-  // _id: string;
-  // price: number;
-  // onSwipe: () => void;
-  //   position: number;
 }
 const widthCard = width * 0.75;
 const heightCard = widthCard * 1.7;
@@ -41,10 +37,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
   },
 });
-const CardHome = ({ position, product, numberSale }: CardProps) => {
+const CardHome = ({ position, product, numberSale, user }: CardProps) => {
   const { gestureHandler, translation, velocity, state } = usePanGestureHandler();
   const backgroundColor = mixColor(position, '#C9E9E7', '#74BCB8');
-
+  const navigation = useNavigation();
   const translateY = mix(position, 0, -50);
   const translateX = withSpring({
     value: translation.x,
@@ -140,6 +136,31 @@ const CardHome = ({ position, product, numberSale }: CardProps) => {
               }}>
               $ {product.price}
             </Text>
+          </Box>
+
+          <Box
+            flex={0.5}
+            alignItems="center"
+            left={0}
+            right={0}
+            position="absolute"
+            justifyContent="center"
+            alignContent="center"
+            bottom={20}>
+            <Button
+              onPress={async () => {
+                navigation.navigate('ProductStack', {
+                  screen: 'Detail',
+                  params: {
+                    product: { ...product },
+                    _id: user ? user._id : '',
+                    productId: product._id,
+                  },
+                });
+              }}
+              variant="primaryView"
+              label=">"
+            />
           </Box>
         </Animated.View>
       </PanGestureHandler>

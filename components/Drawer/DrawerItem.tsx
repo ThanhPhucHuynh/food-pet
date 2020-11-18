@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions, StackActions } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Axios from 'axios';
 import React from 'react';
@@ -23,7 +23,8 @@ interface DrawerItemProps {
 }
 
 const DrawerItem = ({ icon, color, screen, label, ComponentScreen }: DrawerItemProps) => {
-  const { navigate, goBack } = useNavigation<DrawerNavigationProp<HomeRoutes, 'HomeDraw'>>();
+  // const { navigate, goBack, reset, } = useNavigation<DrawerNavigationProp<HomeRoutes, 'HomeDraw'>>();
+  const navigation = useNavigation<DrawerNavigationProp<HomeRoutes, 'HomeDraw'>>();
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -42,11 +43,24 @@ const DrawerItem = ({ icon, color, screen, label, ComponentScreen }: DrawerItemP
           const data = await LogoutService();
           dispatch(checkIsLogin());
           dispatch(checkCart());
-          navigate('HomeDraw');
+          navigation.navigate('HomeDraw');
         } else {
-          setLoading(false);
+          if (screen === 'ProductStack') {
+            // navigate('ProductStack', {
+            //   screen: 'Product',
+            // });
+            navigation.dispatch({
+              ...CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'ProductStack' }],
+              }),
+            });
+            setLoading(false);
+          } else {
+            setLoading(false);
 
-          navigate(screen);
+            navigation.navigate(screen);
+          }
         }
       }}>
       <Box flexDirection="row" margin="s" paddingLeft="m" alignItems="center">

@@ -7,7 +7,7 @@ import { RectButton } from 'react-native-gesture-handler';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { theme, Text as TextStyle } from '../constants';
 interface ButtonProps {
-  variant: 'default' | 'primary' | 'transparent';
+  variant: 'default' | 'primary' | 'transparent' | 'primaryView';
   label: string;
   onPress: () => void;
   children?: ReactNode;
@@ -33,7 +33,9 @@ const Button = ({ variant, label, onPress, children, ...rest }: ButtonProps) => 
   // const theme = useTheme();
 
   const backgroundColor =
-    variant === 'primary'
+    variant === 'primaryView'
+      ? theme.colors.primary
+      : variant === 'primary'
       ? theme.colors.primary
       : variant === 'transparent'
       ? 'transparent'
@@ -41,7 +43,14 @@ const Button = ({ variant, label, onPress, children, ...rest }: ButtonProps) => 
   const color = variant === 'primary' ? 'white' : theme.colors.titleBoarding;
   return (
     <RectButton style={[styles.container, { backgroundColor }]} {...{ onPress }}>
-      {children ? children : <Text style={[styles.label, { color }]}>{label}</Text>}
+      {children ? (
+        children
+      ) : (
+        <Text style={[styles.label, { color }]}>
+          {variant === 'primaryView' ? 'View ' : ''}
+          {label}
+        </Text>
+      )}
     </RectButton>
   );
 };

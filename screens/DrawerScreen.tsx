@@ -45,14 +45,20 @@ const DrawerScreen = ({ user, isLogin }: DrawerScreenProps) => {
         </Text>
       </TouchableOpacity>
     ) : (
-      <Box justifyContent="center" alignItems="center">
-        <Text variant="name" style={{ textTransform: 'uppercase' }}>
-          {name}
-        </Text>
-        <Text variant="email" style={{ textTransform: 'uppercase' }}>
-          {user.email}
-        </Text>
-      </Box>
+      <TouchableOpacity
+        style={{ opacity: 1 }}
+        onPress={() => {
+          navigation.navigate('Info');
+        }}>
+        <Box justifyContent="center" alignItems="center">
+          <Text variant="name" style={{ textTransform: 'uppercase' }}>
+            {name}
+          </Text>
+          <Text variant="email" style={{ textTransform: 'uppercase' }}>
+            {user.email}
+          </Text>
+        </Box>
+      </TouchableOpacity>
     );
   return (
     <Box flex={1}>
@@ -141,6 +147,7 @@ const DrawerScreen = ({ user, isLogin }: DrawerScreenProps) => {
               elevation: 24,
             }}
           />
+
           <Box margin="l">
             <BtnLogin />
           </Box>

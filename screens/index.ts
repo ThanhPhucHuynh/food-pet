@@ -9,3 +9,4 @@ export { default as DrawerScreen, assets as DrawerAssets } from './DrawerScreen'
 export { default as Cart } from './Cart';
 export { default as Detail } from './Detail';
 export { default as Order } from './Order';
+export { default as Info } from './Info';

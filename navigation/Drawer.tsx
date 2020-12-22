@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Drawer_Width } from '../constants';
 import { ApplicationState, checkIsLogin } from '../redux';
-import { Cart, Detail, DrawerScreen, Home, Product } from '../screens';
+import { Cart, Detail, DrawerScreen, Home, Info, Product } from '../screens';
 import {
   AuthenticationNavigatorCart,
   AuthenticationNavigatorHome,
@@ -52,6 +52,7 @@ export const HomeNavigator = () => {
       drawerStyle={{
         width: Drawer_Width,
       }}>
+      <Drawer.Screen name="Info" component={Info} />
       <Drawer.Screen name="HomeDraw" component={AuthenticationNavigatorHome} />
       <Drawer.Screen name="ProductStack" component={AuthenticationNavigatorProduct} />
       <Drawer.Screen name="CartDraw" component={AuthenticationNavigatorCart} />

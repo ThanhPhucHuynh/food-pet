@@ -8,6 +8,7 @@ import {
   DrawnItemList,
   ButtonPicture,
   BackgroundPicture,
+  VideoInfo,
 } from './contents';
 import { fonts } from './fonts';
 import { width, height, theme, Text, Box, Drawer_Width, colorArray } from './theme';
@@ -23,6 +24,7 @@ export {
   Box,
   pictureWelcome,
   pictureContainer,
+  VideoInfo,
   ButtonPicture,
   VideoContainer,
   DrawnItemList,

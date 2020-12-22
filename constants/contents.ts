@@ -93,7 +93,9 @@ const ButtonPicture: ImageSourcePropType = require('../assets/images/bottonPictu
 const pictureWelcome: ImageSourcePropType = require('../assets/images/c6.png');
 const AvatarGuest = require('../assets/images/guest.png');
 const iconFacebook = require('../assets/svg/facebook.svg');
+const VideoInfo: AVPlaybackSource = require('../assets/video/Cat.mp4');
 const VideoContainer: AVPlaybackSource = require('../assets/video/clip3.mp4');
+
 export {
   slides,
   pictureWelcome,
@@ -104,4 +106,5 @@ export {
   DrawnItemList,
   ButtonPicture,
   BackgroundPicture,
+  VideoInfo,
 };
